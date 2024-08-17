@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { Lato } from "next/font/google";
 import "./globals.css";
+import { headers } from "next/headers";
+import Header from "../components/header";
 
-const lato = Lato({ subsets: ["latin"], weight: ["100", "300", "400", "700", "900"] });
-
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "700", "900"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,9 +19,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { get } = headers();
+  const url = get("referer");
+  
   return (
     <html lang="en">
-      <body className={`${lato.className}`}>{children}</body>
+      <body className={`${lato.className} bg-gradientLight dark:bg-gradientDark`}>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
