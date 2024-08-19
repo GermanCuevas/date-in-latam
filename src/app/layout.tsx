@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "./globals.css";
-import { headers } from "next/headers";
-import Header from "../components/header";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -19,15 +17,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { get } = headers();
-  const url = get("referer");
-  
   return (
     <html lang="en">
-      <body className={`${lato.className} bg-gradientLight dark:bg-gradientDark`}>
-        <Header />
-        {children}
-      </body>
+      <body className={`${lato.className} bg-gradientLight dark:bg-gradientDark`}>{children}</body>
     </html>
   );
 }

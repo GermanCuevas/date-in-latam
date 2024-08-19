@@ -1,47 +1,14 @@
-"use client";
 import Image from "next/image";
-import {
-  HomeIcon,
-  HeartIcon,
-  EyeIcon,
-  ChatBubbleBottomCenterTextIcon,
-  PlusCircleIcon,
-} from "@heroicons/react/24/solid";
+import { HomeIcon, HeartIcon, EyeIcon, ChatBubbleBottomCenterTextIcon, PlusCircleIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 
 const Header = () => {
-  const [showHeader, setShowHeader] = useState(false);
-  const pathname = usePathname();
-  console.log(pathname);
-
-  useEffect(() => {
-    // Verifica la ruta y establece la visibilidad del header
-    if (pathname !== "/") {
-      setShowHeader(true);
-    }
-  }, [pathname]); // Ejecuta el efecto cuando cambia la ruta
-  
   return (
-    showHeader && (
-    <header
-      className={`h-[65px] flex bg-gradientLight dark:bg-gradientDark justify-center`}
-    >
+    <header className={`h-[65px] flex bg-gradientLight dark:bg-gradientDark justify-center`}>
       <div className="flex w-[90%] items-center">
         <div className="flex flex-1">
-          <Image
-            src="/assets/DateinLatamLogo.svg"
-            width={48}
-            height={48}
-            alt="Data in latam Logo"
-          />
-          <Image
-            src="/assets/LogoDate.svg"
-            width={101}
-            height={55}
-            alt="Data in latam Logo"
-          />
+          <Image src="/assets/DateinLatamLogo.svg" width={48} height={48} alt="Data in latam Logo" />
+          <Image src="/assets/LogoDate.svg" width={101} height={55} alt="Data in latam Logo" />
         </div>
         <nav className="flex w-[700px] text-base font-black text-myColorBlack-500 dark:text-myColorWhite-500">
           <ul className="flex justify-between w-full">
@@ -91,7 +58,7 @@ const Header = () => {
           </ul>
         </nav>
       </div>
-    </header>)
+    </header>
   );
 };
 
