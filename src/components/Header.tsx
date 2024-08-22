@@ -22,7 +22,7 @@ const Header = () => {
             </li>
             <li className="flex items-center">
               <Link href="#" className="flex items-center">
-                <div className="flex flex gap-x-1 ">
+                <div className="flex gap-x-1 ">
                   <span className="flex items-center">Likes</span>
                   <HeartIcon className="size-7" />
                 </div>
@@ -30,7 +30,7 @@ const Header = () => {
             </li>
             <li className="flex items-center">
               <Link href="#" className="flex items-center">
-                <div className="flex flex gap-x-1 ">
+                <div className="flex gap-x-1 ">
                   <span className="flex items-center">Visitantes</span>
                   <EyeIcon className="size-7" />
                 </div>
@@ -38,7 +38,7 @@ const Header = () => {
             </li>
             <li className="flex items-center">
               <Link href="#" className="flex items-center">
-                <div className="flex flex gap-x-1 ">
+                <div className="flex gap-x-1 ">
                   <span className="flex items-center">Mensajes</span>
                   <ChatBubbleBottomCenterTextIcon className="size-7" />
                 </div>

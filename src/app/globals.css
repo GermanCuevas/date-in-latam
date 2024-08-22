@@ -57,3 +57,7 @@ body {
 .float-animation {
   animation: float 5s ease-in-out infinite;
 }
+
+.animation{
+  width: 99px;
+}
