@@ -1,13 +1,14 @@
 import Image from "next/image";
-import BoxRoot from "../components/BoxRoot.jsx";
-import FloatBtn from "../components/FloatBtn.jsx";
+import BoxRoot from "../components/BoxRoot";
+import "./globals.css";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <div className="flex flex-col gap-16">
       <Image src="/assets/LogoDate.svg" width={339} height={203} alt="Data in latam Logo" />
       <BoxRoot />
-      <FloatBtn />
-    </main>
+    </div>
   );
 }
+//<main className="flex items-center justify-center relative h-screen "></main>
+//</main>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
-import "./globals.css";
+import FloatBtn from "../components/FloatBtn";
+import Version from "@/components/Versions";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -19,7 +20,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${lato.className} bg-gradientLight dark:bg-gradientDark`}>{children}</body>
+      <body className={`${lato.className} bg-gradientLight dark:bg-gradientDark h-full`}>
+        <main className="flex items-center justify-center relative h-screen ">
+          {children}
+          <FloatBtn />
+          <Version />
+        </main>
+      </body>
     </html>
   );
 }
