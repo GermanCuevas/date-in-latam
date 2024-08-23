@@ -11,7 +11,7 @@ export default function Template({
   const pathname = usePathname();
   return (
     <>
-      {(pathname !== "/" && pathname !== "/login") && <Header />}
+      {(pathname !== "/" && pathname !== "/login" && pathname !== "/register") && <Header />}
       {children}
     </>
   );
