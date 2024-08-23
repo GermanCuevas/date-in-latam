@@ -92,6 +92,10 @@ const config: Config = {
       boxShadow: {
         custom: "0px 4px 10px rgba(0, 0, 0, 0.5)",
       },
+      //screens 
+      screens: {
+        'h-sm': { 'raw': '(max-height: 700px)' }, // Define el breakpoint para pantallas de menos de 700px de altura
+      },
     },
   },
   plugins: [
