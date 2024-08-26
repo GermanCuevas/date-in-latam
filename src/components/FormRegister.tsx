@@ -1,13 +1,16 @@
 "use client";
-//import { useRouter } from "next/navigation.js";
+import { useRouter } from "next/navigation.js";
 import Button from "@/commons/Button";
 import InputForm from "@/commons/InputForm";
 import { useState } from "react";
-import validationFields from "@/app/utils/validationFileds";
+import validateEmptyFields from "@/utils/validateEmptyFields";
 import MultipleInputs from "./MultipleInputs";
+import validateFormatInputs from "@/utils/validateFormatInputs";
 
 //Cuando se hacen los datos a pedir en el formulario, asegurarse de que el "name" sea el mismo que el "label" que va en el useState
 const Form = () => {
+  const router = useRouter();
+  const [errorObject, setErrorObject] = useState({});
   const dataInputs = [
     [
       {
@@ -95,10 +98,10 @@ const Form = () => {
     if (Array.isArray(obj)) {
       //className="flex flex-col gap-y-1"
       return (
-        <div>
-          {obj[0].name === "day" && <span className="text-myPlaceholder-500 pl-3 mb-2">Fecha de nacimiento</span>}
-          {MultipleInputs(obj, setDataForm, dataForm, widthBox, obj.length)}
-        </div>
+        <>
+          {obj[0].name === "day" && <span className="text-myPlaceholder-500 pl-3">Fecha de nacimiento:</span>}
+          {MultipleInputs(obj, setDataForm, dataForm, widthBox, obj.length, errorObject)}
+        </>
       );
     }
   };
@@ -107,7 +110,7 @@ const Form = () => {
 
   const mapingData = () => {
     const dataMap = dataInputs.map((obj) => {
-      return <>{Array.isArray(obj) ? renderArray(obj) : <InputForm key={obj.name} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={widthBox} />}</>;
+      return <>{Array.isArray(obj) ? renderArray(obj) : <InputForm key={obj.name} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={widthBox} errorObject={errorObject} />}</>;
     });
 
     const middleIndex = Math.ceil(dataMap.length / 2); // Calcula la mitad del array
@@ -124,9 +127,15 @@ const Form = () => {
     );
   };
 
-  const handleSubmit = () => {
-    validationFields(dataForm, setDataForm);
-    console.log(dataForm);
+  const handleSubmit = async() => {
+    const notSendSubmit = await validateEmptyFields(setDataForm);
+    if(notSendSubmit){
+     console.log("El formulario no se debe enviar, hay campos vacios");
+      return;
+    }
+    const objMessage = await validateFormatInputs(dataForm, setErrorObject)
+    console.log("dataForm en componente Form=>",dataForm);
+    //router.push("/welcome");
   };
   const fontWeight = "font-semibold";
 
@@ -138,7 +147,7 @@ const Form = () => {
           Al registrarte, confirmas que tienes más de 18 años y aceptas nuestros <span className="font-black">Términos y Condiciones</span>, los cuales incluyen nuestras <span className="font-black">políticas de cookies</span>.
         </p>
       </div>
-      <Button text={"Registrarme ahora"} bg={"bg-vibrant-500"} type="submit" handleFunction={handleSubmit} to={""} />
+      <Button text={"Registrarme ahora"} variant={"primary"} type="submit" handleFunction={handleSubmit} to={""} />
     </form>
   );
 };

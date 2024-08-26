@@ -68,9 +68,11 @@ const config: Config = {
         },
         myColorWhite: {
           500: "#e6e6e6",
+          600: "#F0F0F0"
         },
         myColorBlack: {
-          500: "#333333",
+          500: "#333333", //generalmente para color de textos
+          600: "#020c23" // para background
         },
         myColorTransparent: {
           500: "rgba(222, 199, 252, 0.25)",

@@ -1,15 +1,19 @@
 "use client";
-
+import { useRouter } from "next/navigation.js";
 import Button from "@/commons/Button";
 import InputForm from "@/commons/InputForm";
 import { useState } from "react";
-import validationFields from "@/app/utils/validationFileds";
+import validateEmptyFields from "@/utils/validateEmptyFields";
+import validateFormatInputs from "@/utils/validateFormatInputs";
 
 //Formulario de login
 //Todos los campos del formulario deben declararse dentro del useState para poder ser usados en el formulario.
 //Luego deben colocarse los respectivos valores dentro de un array para poder mapear los Inputs, que son commons.
 
 const Form = () => {
+  const router = useRouter();
+  const [errorObject, setErrorObject] = useState({});
+
   const dataInputs = [
     {
       type: "text",
@@ -28,17 +32,33 @@ const Form = () => {
     password: { value: "", red: false, label: "password" },
   });
 
-  const handleSubmit = () => {
-    validationFields(dataForm, setDataForm);
+  const handleSubmit = async() => {
+    const notSendSubmit = await validateEmptyFields(setDataForm);
+    if(notSendSubmit){
+     console.log("El formulario no se debe enviar, hay campos vacios");
+      return;
+    }
+    const objMessage = await validateFormatInputs(dataForm, setErrorObject)
+    //setErrorObject(objMessage)
+    
+   // console.log("dataForm en componente Form=>",dataForm);
+    
+    //router.push("/");
   };
+
   const fontWeight = "font-semibold";
   return (
+    <>
     <form className={`flex flex-col p-5 shadow-xl rounded-md gap-y-16 bg-myColorTransparent-500 ${fontWeight}`}>
       {dataInputs.map(({ type, placeholder, name }) => {
-        return <InputForm key={name} type={type} placeholder={placeholder} name={name} setDataForm={setDataForm} dataForm={dataForm} width={"w-72"} />;
+        return <InputForm key={name} type={type} placeholder={placeholder} name={name} setDataForm={setDataForm} dataForm={dataForm} width={"w-72"} /* errorObject={errorObject} */errorObject={errorObject} />;
       })}
-      <Button text={"Ingresar 💖"} bg={"bg-vibrant-500"} type="submit" handleFunction={handleSubmit} to={""} />
+      <Button text={"Ingresar 💖"} variant={"primary"} type="submit" handleFunction={handleSubmit} to={""} />
     </form>
+    <span>
+      { }
+    </span>
+    </>
   );
 };
 
