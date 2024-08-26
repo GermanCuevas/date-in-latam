@@ -16,9 +16,9 @@ const BoxRoot = () => {
   }
   return (
     <div className="flex flex-col p-5 shadow-xl rounded-md gap-y-16 bg-myColorTransparent-500">
-      <Button type="button" text={"Regístrese para comenzar el viaje 😄"} bg={"bg-vibrant-500"} to="register" handleFunction={redirectionHandle} />
-      <Button type="button" text={"¡ Ya tengo cuenta !"} bg={"bg-myColorTransparent-500"} to="login" handleFunction={redirectionHandle} />
-      <Button type="button" text={"Solo quiero hechar un vistazo  👀"} bg={"bg-myColorTransparent-500"} to="discover" handleFunction={redirectionHandle}/>
+      <Button type="button" text={"Regístrese para comenzar el viaje 😄"} variant={"primary"} to="register" handleFunction={redirectionHandle} />
+      <Button type="button" text={"¡ Ya tengo cuenta !"} variant={"secondary"} to="login" handleFunction={redirectionHandle} />
+      <Button type="button" text={"Solo quiero hechar un vistazo  👀"} variant={"secondary"} to="discover" handleFunction={redirectionHandle}/>
     </div>
   );
 };

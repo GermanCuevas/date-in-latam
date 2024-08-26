@@ -2,7 +2,7 @@
 import InputForm from "@/commons/InputForm";
 import { useEffect, useState } from "react";
 
-const MultipleInputs = (dataArray, setDataForm, dataForm, widthBox, dataLength) => {
+const MultipleInputs = (dataArray, setDataForm, dataForm, widthBox, dataLength, errorObject) => {
 
   return (
     <div
@@ -12,7 +12,7 @@ const MultipleInputs = (dataArray, setDataForm, dataForm, widthBox, dataLength) 
       }}
     >
       {dataArray.map((obj) => {
-        return <InputForm key={obj.name} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={""} />;
+        return <InputForm key={obj.name} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={"w-full"} errorObject={errorObject}/>;
       })}
     </div>
   );
