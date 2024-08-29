@@ -79,6 +79,7 @@ const config: Config = {
         },
         myPlaceholder: {
           500: "#D4C4C4",
+          600: "#b49797" // un poco mas oscuro
         },
         myColorRed: {
           500: "#E53935",

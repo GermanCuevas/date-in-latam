@@ -32,32 +32,31 @@ const Form = () => {
     password: { value: "", red: false, label: "password" },
   });
 
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     const notSendSubmit = await validateEmptyFields(setDataForm);
-    if(notSendSubmit){
-     console.log("El formulario no se debe enviar, hay campos vacios");
+    if (notSendSubmit) {
+      console.log("El formulario no se debe enviar, hay campos vacios");
       return;
     }
-    const objMessage = await validateFormatInputs(dataForm, setErrorObject)
+    const objMessage = await validateFormatInputs(dataForm, setErrorObject);
     //setErrorObject(objMessage)
-    
-   // console.log("dataForm en componente Form=>",dataForm);
-    
+
+    // console.log("dataForm en componente Form=>",dataForm);
+
     //router.push("/");
   };
-
+  //const InputForm = ({ type, placeholder, setDataForm, dataForm, name, width, errorObject, options , titleSelect}) => {
+  //const Button = ({ text, type, handleFunction, to, variant, fontSize, Icon , widthButton }) =>
   const fontWeight = "font-semibold";
   return (
     <>
-    <form className={`flex flex-col p-5 shadow-xl rounded-md gap-y-16 bg-myColorTransparent-500 ${fontWeight}`}>
-      {dataInputs.map(({ type, placeholder, name }) => {
-        return <InputForm key={name} type={type} placeholder={placeholder} name={name} setDataForm={setDataForm} dataForm={dataForm} width={"w-72"} /* errorObject={errorObject} */errorObject={errorObject} />;
-      })}
-      <Button text={"Ingresar 💖"} variant={"primary"} type="submit" handleFunction={handleSubmit} to={""} />
-    </form>
-    <span>
-      { }
-    </span>
+      <form className={`flex flex-col p-5 shadow-xl rounded-md gap-y-16 bg-myColorTransparent-500 ${fontWeight}`}>
+        {dataInputs.map(({ type, placeholder, name }) => {
+          return <InputForm key={name} type={type} placeholder={placeholder} name={name} setDataForm={setDataForm} dataForm={dataForm} width={"w-72"} errorObject={errorObject} options={""} titleSelect={""} />;
+        })}
+        <Button text={"Ingresar 💖"} variant={"primary"} type="submit" handleFunction={handleSubmit} to={""} fontSize={""} Icon={""} widthButton={""} />
+      </form>
+      <span>{}</span>
     </>
   );
 };
