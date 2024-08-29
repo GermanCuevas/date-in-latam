@@ -62,3 +62,11 @@ body {
   width: 99px;
 }
 
+.text-stroke-black {
+  text-shadow:
+    1px 1px 0 #333333,
+    -1px 1px 0 #333333,
+    -1px -1px 0 #333333,
+    1px -1px 0 #333333;
+}
+

@@ -1,124 +1,50 @@
 "use client";
-import { useRouter } from "next/navigation.js";
 import Button from "@/commons/Button";
 import InputForm from "@/commons/InputForm";
 import { useState } from "react";
 import validateEmptyFields from "@/utils/validateEmptyFields";
 import MultipleInputs from "./MultipleInputs";
 import validateFormatInputs from "@/utils/validateFormatInputs";
+import dataToInputs from "@/utils/dataToInputs";
+import React from "react";
+import FormFields from "@/types/FormFields";
+
+
+
 
 //Cuando se hacen los datos a pedir en el formulario, asegurarse de que el "name" sea el mismo que el "label" que va en el useState
 const Form = () => {
-  const router = useRouter();
   const [errorObject, setErrorObject] = useState({});
-  const dataInputs = [
-    [
-      {
-        type: "text",
-        placeholder: "Nombre",
-        name: "name",
-      },
-      {
-        type: "text",
-        placeholder: "Apellido",
-        name: "surname",
-      },
-    ],
-    {
-      type: "text",
-      placeholder: "Email",
-      name: "email",
-    },
-    {
-      type: "password",
-      placeholder: "Password",
-      name: "password",
-    },
-    {
-      type: "password",
-      placeholder: "Repita el password",
-      name: "repeatPassword",
-    },
-    [
-      {
-        type: "text",
-        placeholder: "Dia",
-        name: "day",
-      },
-      {
-        type: "text",
-        placeholder: "Mes",
-        name: "month",
-      },
-      {
-        type: "text",
-        placeholder: "Año",
-        name: "year",
-      },
-    ],
-    {
-      type: "text",
-      placeholder: "Ciudad",
-      name: "city",
-    },
-    {
-      type: "text",
-      placeholder: "Pais",
-      name: "country",
-    },
-    {
-      type: "text",
-      placeholder: "Genero",
-      name: "gender",
-    },
-    {
-      type: "text",
-      placeholder: "Quiero conocer",
-      name: "toKnow",
-    },
-  ];
-
-  //El siguieente useState es para guardar los datos del formulario
-  const [dataForm, setDataForm] = useState({
+  const [dataForm, setDataForm] = useState<FormFields>({
     email: { value: "", red: false, label: "email" },
     name: { value: "", red: false, label: "name" },
     surname: { value: "", red: false, label: "surname" },
-    day: { value: "", red: false, label: "day" },
-    month: { value: "", red: false, label: "month" },
-    year: { value: "", red: false, label: "year" },
-    country: { value: "", red: false, label: "country" },
+    day: { value: { value: "", label: "Dia" }, red: false, label: "day" },
+    month: { value: { value: "", label: "Mes" }, red: false, label: "month" },
+    year: { value: { value: "", label: "Año" }, red: false, label: "year" },
     city: { value: "", red: false, label: "city" },
-    gender: { value: "", red: false, label: "gender" },
-    toKnow: { value: "", red: false, label: "toKnow" },
+    gender: { value: { value: "", label: "Selecciona..." }, red: false, label: "gender" },
+    toKnow: { value: { value: "", label: "Selecciona..." }, red: false, label: "toKnow" },
     password: { value: "", red: false, label: "password" },
     repeatPassword: { value: "", red: false, label: "repeatPassword" },
   });
-  //
-  const renderArray = (obj) => {
+
+  const [dataInputs, setDataInputs] = useState(dataToInputs);
+
+  const renderArray = (obj: {}[] | {}) => {
     if (Array.isArray(obj)) {
-      //className="flex flex-col gap-y-1"
-      return (
-        <>
-          {obj[0].name === "day" && <span className="text-myPlaceholder-500 pl-3">Fecha de nacimiento:</span>}
-          {MultipleInputs(obj, setDataForm, dataForm, widthBox, obj.length, errorObject)}
-        </>
-      );
+      return MultipleInputs(obj, setDataForm, dataForm, widthBox, obj.length, errorObject);
     }
   };
 
-  const widthBox = "w-[470px] ";
-
   const mapingData = () => {
-    const dataMap = dataInputs.map((obj) => {
-      return <>{Array.isArray(obj) ? renderArray(obj) : <InputForm key={obj.name} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={widthBox} errorObject={errorObject} />}</>;
+    const dataMap = dataInputs.map((obj, idx) => {
+      return <React.Fragment key={`${idx}-map-inputs`}>{Array.isArray(obj) ? renderArray(obj) : <InputForm type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={widthBox} errorObject={errorObject} options={obj.options} titleSelect={obj?.titleBox} />}</React.Fragment>;
     });
-
     const middleIndex = Math.ceil(dataMap.length / 2); // Calcula la mitad del array
-    // Divide el array en dos partes
     const firstHalf = dataMap.slice(0, middleIndex);
     const secondHalf = dataMap.slice(middleIndex);
 
-    //aqui colocar el breakpoint para el responsive =>
     return (
       <div className="flex flex-col h-sm:flex-row gap-6 w-full">
         <div className="flex flex-col gap-y-6">{firstHalf}</div>
@@ -127,18 +53,19 @@ const Form = () => {
     );
   };
 
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     const notSendSubmit = await validateEmptyFields(setDataForm);
-    if(notSendSubmit){
-     console.log("El formulario no se debe enviar, hay campos vacios");
-      return;
+    if (notSendSubmit) {
+      console.log("El formulario no se debe enviar, hay campos vacios");
+      // return;
     }
-    const objMessage = await validateFormatInputs(dataForm, setErrorObject)
-    console.log("dataForm en componente Form=>",dataForm);
+    await validateFormatInputs(dataForm, setErrorObject);
+    console.log("dataForm en componente Form=>", dataForm);
     //router.push("/welcome");
   };
-  const fontWeight = "font-semibold";
 
+  const fontWeight = "font-semibold";
+  const widthBox = "w-[470px] ";
   return (
     <form className={`flex flex-col p-5 shadow-xl rounded-md gap-y-6 bg-myColorTransparent-500 ${fontWeight}`}>
       {mapingData()}
@@ -147,9 +74,8 @@ const Form = () => {
           Al registrarte, confirmas que tienes más de 18 años y aceptas nuestros <span className="font-black">Términos y Condiciones</span>, los cuales incluyen nuestras <span className="font-black">políticas de cookies</span>.
         </p>
       </div>
-      <Button text={"Registrarme ahora"} variant={"primary"} type="submit" handleFunction={handleSubmit} to={""} />
+      <Button text={"Registrarme ahora"} variant={"primary"} type="submit" handleFunction={handleSubmit} to={""} fontSize={""} Icon={null} widthButton={false} />
     </form>
   );
 };
 export default Form;
-//<InputForm key={obj.name} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={widthBox} />;

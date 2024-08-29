@@ -24,10 +24,12 @@
 const validateEmptyFields = async (setDataForm) => {
   let notSendSubmit = false;
   //Utilizamos el await en la el siguiente set... para asegurarnos de que el boolean notSendSubmit se actualice antes de que el return sea ejecutado
-  await setDataForm(prevDataForm => {
+  await setDataForm((prevDataForm) => {
     const updatedDataForm = {};
     for (let key in prevDataForm) {
-      const isRed = prevDataForm[key].value === "";
+      console.log("000000===>",prevDataForm[key].value);
+      
+      const isRed = prevDataForm[key].value === "" || prevDataForm[key].value.value === "";
       updatedDataForm[key] = {
         ...prevDataForm[key],
         red: isRed,
@@ -41,7 +43,7 @@ const validateEmptyFields = async (setDataForm) => {
   });
 
   setTimeout(() => {
-    setDataForm(prevDataForm => {
+    setDataForm((prevDataForm) => {
       const resetDataForm = {};
       for (let key in prevDataForm) {
         resetDataForm[key] = {
@@ -51,7 +53,7 @@ const validateEmptyFields = async (setDataForm) => {
       }
       return resetDataForm;
     });
-  }, 1000);
+  }, 2000);
 
   return notSendSubmit;
 };
