@@ -5,10 +5,10 @@ import { useState } from "react";
 import validateEmptyFields from "@/utils/validateEmptyFields";
 import MultipleInputs from "./MultipleInputs";
 import validateFormatInputs from "@/utils/validateFormatInputs";
-import dataToInputs from "@/utils/dataToInputs";
+import {dataToInputs} from "@/utils/dataToInputs";
 import React from "react";
 import FormFields from "@/types/FormFields";
-
+import { InputField } from "@/utils/dataToInputs";
 
 
 
@@ -29,11 +29,11 @@ const Form = () => {
     repeatPassword: { value: "", red: false, label: "repeatPassword" },
   });
 
-  const [dataInputs, setDataInputs] = useState(dataToInputs);
+  const [dataInputs] = useState(dataToInputs);
 
-  const renderArray = (obj: {}[] | {}) => {
+  const renderArray = (obj: InputField[]) => {
     if (Array.isArray(obj)) {
-      return MultipleInputs(obj, setDataForm, dataForm, widthBox, obj.length, errorObject);
+      return MultipleInputs({dataArray: obj, setDataForm, dataForm, widthBox, dataLength: obj.length, errorObject});
     }
   };
 
@@ -54,7 +54,7 @@ const Form = () => {
   };
 
   const handleSubmit = async () => {
-    const notSendSubmit = await validateEmptyFields(setDataForm);
+    const notSendSubmit = await validateEmptyFields({setDataForm});
     if (notSendSubmit) {
       console.log("El formulario no se debe enviar, hay campos vacios");
       // return;

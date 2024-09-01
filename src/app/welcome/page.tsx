@@ -1,5 +1,5 @@
-import Image from "next/image";
-import BoxRoot from "@/components/BoxRoot";
+// import Image from "next/image";
+// import BoxRoot from "@/components/BoxRoot";
 import Landing from "@/components/Landing";
 
 //mt-28

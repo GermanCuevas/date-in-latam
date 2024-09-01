@@ -1,4 +1,10 @@
+interface validateFormatInputsInterface {
+  data: [],
+  setErrorObject: (key, value) => void
+}
+
 const validateFormatInputs = async (data, setErrorObject) => {
+console.log(data);
 
   const email = data["email"]?.value;
   const password = data["password"]?.value;

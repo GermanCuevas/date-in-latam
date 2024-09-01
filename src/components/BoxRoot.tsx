@@ -6,7 +6,6 @@ import Button from '../commons/Button'
 //import { RoutePath } from 'react-router-dom';
 //const redirectionHandle = (to: RoutePath) => {
 //instalar: npm install --save-dev @types/react-router-dom
-
 //border-myColorBlack-500 dark:border-vibrant-50
 
 const BoxRoot = () => {
