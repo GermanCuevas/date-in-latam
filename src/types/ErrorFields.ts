@@ -14,8 +14,8 @@ interface ErrorFieldsForm {
 type ErrorKey = keyof ErrorFieldsForm;
 
 interface FieldMessageError {
-  message?: string;
-  errorName: ErrorKey;
+  message: string;
+  
 }
 
 /*   interface ErrorFieldsLogin {

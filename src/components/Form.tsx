@@ -16,10 +16,7 @@ import { ErrorFieldsForm } from "@/types/ErrorFields";
 
 const Form = () => {
   //const router = useRouter();
-  const [errorObject, setErrorObject] = useState<ErrorFieldsForm>({
-    name: { message: "", errorName: "name" },
-    password: { message: "", errorName: "password" },
-  });
+  const [errorObject, setErrorObject] = useState<ErrorFieldsForm>({});
 
   const [dataForm, setDataForm] = useState<FormFields>({
     email: { value: "", red: false, label: "email" },
@@ -27,12 +24,12 @@ const Form = () => {
   });
 
   const handleSubmit = async () => {
-    const notSendSubmit = await validateEmptyFields({setDataForm});
+    const notSendSubmit = await validateEmptyFields({ setDataForm });
     if (notSendSubmit) {
       console.log("El formulario no se debe enviar, hay campos vacios");
       return;
     }
-    const objMessage = await validateFormatInputs(dataForm, setErrorObject);
+    const objMessage = await validateFormatInputs({ dataForm, setErrorObject });
     //setErrorObject(objMessage)
     // console.log("dataForm en componente Form=>",dataForm);
     //router.push("/");
@@ -43,7 +40,7 @@ const Form = () => {
   return (
     <>
       <form className={`flex flex-col p-5 shadow-xl rounded-md gap-y-16 bg-myColorTransparent-500 ${fontWeight}`}>
-        {dataInputsLogin.map(({ type, placeholder, name } : InputField ) => {
+        {dataInputsLogin.map(({ type, placeholder, name }: InputField) => {
           return <InputForm key={name} type={type} placeholder={placeholder} name={name} setDataForm={setDataForm} dataForm={dataForm} width={"w-72"} errorObject={errorObject} titleSelect={""} />;
         })}
         <Button text={"Ingresar 💖"} variant={"primary"} type="submit" handleFunction={handleSubmit} to={""} fontSize={""} />

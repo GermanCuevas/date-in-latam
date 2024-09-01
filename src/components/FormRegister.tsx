@@ -59,7 +59,7 @@ const Form = () => {
       console.log("El formulario no se debe enviar, hay campos vacios");
       // return;
     }
-    await validateFormatInputs(dataForm, setErrorObject);
+    await validateFormatInputs({dataForm, setErrorObject});
     console.log("dataForm en componente Form=>", dataForm);
     //router.push("/welcome");
   };
