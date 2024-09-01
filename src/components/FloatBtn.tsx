@@ -8,7 +8,7 @@ const FloatBtn = () => {
   const hoverEffect = "transform transition-transform duration-300 hover:scale-110";
   return (
     <button
-      onClick={(e) => {
+      onClick={() => {
         document.documentElement.classList.toggle("dark");
         setDarkModeOn(!darkModeOn);
       }}

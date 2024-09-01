@@ -17,7 +17,9 @@ interface InputField {
 }
 
 
-type DataToInputs = (InputField | InputField[])[];
+type DataToInputs = (InputField | InputField[] )[];
+export type {InputField}
+export type {DataToInputs};
 
 const generateDaysOptions = (start = 1, end = 31) => {
   const options = [];
@@ -133,4 +135,17 @@ const dataToInputs: DataToInputs = [
   },
 ];
 
-export default dataToInputs;
+const dataInputsLogin: InputField[] = [
+  {
+    type: "text",
+    placeholder: "Email",
+    name: "email",
+  },
+  {
+    type: "password",
+    placeholder: "Password",
+    name: "password",
+  },
+];
+
+export {dataToInputs , dataInputsLogin};

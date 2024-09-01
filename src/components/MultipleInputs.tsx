@@ -1,9 +1,18 @@
 "use client";
 import InputForm from "@/commons/InputForm";
+import { Dispatch, SetStateAction } from "react";
+import FormFields from "@/types/FormFields";
+import { InputField } from "@/utils/dataToInputs";
+interface MultipleInputsInterface {
+  dataArray: InputField[];
+  setDataForm: Dispatch<SetStateAction<FormFields>>;
+  dataForm: FormFields;
+  widthBox?: string | undefined;
+  dataLength?: number | undefined;
+  errorObject?: {};
+}
 
-
-const MultipleInputs = (dataArray, setDataForm, dataForm, widthBox, dataLength, errorObject) => {
-
+const MultipleInputs = ({ dataArray, setDataForm, dataForm, widthBox, dataLength, errorObject }: MultipleInputsInterface) => {
   return (
     <>
       {dataArray[0]?.titleBox ? (
@@ -28,7 +37,7 @@ const MultipleInputs = (dataArray, setDataForm, dataForm, widthBox, dataLength, 
           }}
         >
           {dataArray.map((obj) => {
-            return <InputForm key={obj.name} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={"w-full"} errorObject={errorObject}  options={obj.options} />;
+            return <InputForm key={obj.name} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={"w-full"} errorObject={errorObject} options={obj.options} />;
           })}
         </div>
       )}

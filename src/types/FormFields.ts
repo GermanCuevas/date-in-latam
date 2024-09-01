@@ -17,17 +17,17 @@ interface InputFieldWithSelect {
 }
 
 interface FormFields {
-  email: InputField;
-  name: InputField;
-  surname: InputField;
-  day: InputFieldWithSelect;
-  month: InputFieldWithSelect;
-  year: InputFieldWithSelect;
-  city: InputField;
-  gender: InputFieldWithSelect;
-  toKnow: InputFieldWithSelect;
-  password: InputField;
-  repeatPassword: InputField;
+  email?: InputField;
+  name?: InputField;
+  surname?: InputField;
+  day?: InputFieldWithSelect;
+  month?: InputFieldWithSelect;
+  year?: InputFieldWithSelect;
+  city?: InputField;
+  gender?: InputFieldWithSelect;
+  toKnow?: InputFieldWithSelect;
+  password?: InputField;
+  repeatPassword?: InputField;
 }
 
 export default FormFields;

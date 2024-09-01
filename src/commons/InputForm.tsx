@@ -1,13 +1,12 @@
 "use client";
 import { useEffect, useRef, useState, Dispatch, SetStateAction, ChangeEvent } from "react";
-//import SelectForm from "./SelectForm";
-import Select, { SingleValue, OptionsOrGroups, PropsValue } from "react-select";
-import Button from "./Button";
-import getDaysInMonth from "@/utils/getDaysInMonth";
-import { XCircleIcon } from "@heroicons/react/24/solid";
 import { FC } from "react";
+import Select, { SingleValue, OptionsOrGroups, ActionMeta } from "react-select";
+import getDaysInMonth from "@/utils/getDaysInMonth";
+import Button from "./Button";
+import { XCircleIcon } from "@heroicons/react/24/solid";
+import { ErrorFieldsForm } from "@/types/ErrorFields";
 import FormFields from "@/types/FormFields";
-
 
 interface inputSelect {
   value: string;
@@ -23,7 +22,7 @@ interface InputProps {
   titleSelect?: string;
   setDataForm: Dispatch<SetStateAction<FormFields>>;
   dataForm: FormFields;
-  errorObject?: {};
+  errorObject?: ErrorFieldsForm;
 }
 
 const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, name, width, errorObject, options, titleSelect }) => {
@@ -40,19 +39,19 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
           console.log("La fecha no es válida");
           let cantDias = getDaysInMonth(dataForm?.month?.value?.value.toString(), dataForm?.year?.value?.value.toString());
 
-          setDataForm((prev) => {
-            console.log("prev", prev); // Verifica el contenido de prev
+          setDataForm({ ...dataForm, day: { ...dataForm.day, value: { value: cantDias.toString(), label: `${cantDias}` } } });
+          /*           setDataForm((prev) => {
+            //console.log("prev", prev); // Verifica el contenido de prev
             return {
               ...prev,
               day: { ...prev.day, value: { value: cantDias.toString(), label: `${cantDias}` } },
             };
-          });
+          }); */
         }
       }
     };
     validateDate();
   }, [dataForm?.day?.value?.value, dataForm?.month?.value?.value, dataForm?.year?.value?.value]);
-
 
   const handleChange = async (newValue: ChangeEvent<HTMLInputElement>) => {
     if (newValue) {
@@ -60,37 +59,35 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
         ...prevDataForm,
         [name]: {
           ...prevDataForm[name],
-          value:  newValue.target.value,
+          value: newValue.target.value,
         },
       }));
-
       if (name === "city" && newValue.target.value.length > 3) {
         const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${newValue.target.value}&format=json`);
         const data = await response.json();
         const displaysNames = data.map((item: { display_name: string }) => item.display_name); // Obtiene los nombres de las ciudades
         setSuggestions(displaysNames);
       }
-
       if (name === "city" && newValue.target.value.length <= 3) {
         setSuggestions([]);
       }
     }
   };
 
-  const handleChangeSelectComponent = async (newValue: SingleValue<string | inputSelect>) => {
-    if (newValue && typeof newValue !== 'string') {
+  const handleChangeSelectComponent = async (newValue: SingleValue<string | inputSelect>, _actionMeta: ActionMeta<inputSelect>) => {
+    if (newValue && typeof newValue !== "string") {
       setDataForm((prevDataForm) => ({
         ...prevDataForm,
         [name]: {
           ...prevDataForm[name],
-          value: { value: newValue.value.toString(), label: `${newValue.value}` } ,
+          value: { value: newValue.value.toString(), label: `${newValue.value}` },
         },
       }));
     }
   };
 
   const customStyles = {
-    control: (provided : {} ) => ({
+    control: (provided: {}) => ({
       ...provided,
       borderColor: !dataForm[name]?.red ? "black" : "red", // Cambia el color del borde a rojo
       boxShadow: "none", // Elimina cualquier sombra del borde
@@ -99,14 +96,19 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
 
   const handleSelect = (namePlace: string) => {
 
-    setDataForm((prevDataForm) => ({
-      ...prevDataForm,
-      city: {
-        ...prevDataForm.city,
-        value: namePlace,
-      },
-    }));
-
+    setDataForm((prevDataForm) => {
+      if (typeof prevDataForm.city?.value === "string") {
+        prevDataForm.city.value = namePlace;
+      }
+      return prevDataForm;
+    });
+    // setDataForm((prevDataForm) => ({
+    //   ...prevDataForm,
+    //   city: {
+    //     ...prevDataForm.city,
+    //     value: namePlace,
+    //   },
+    // }));
     setSuggestions([]);
   };
 
@@ -123,19 +125,21 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
       };
     }, []); */
 
-  type InputValueType = string ;
+  //type InputValueType = string;
+  //console.log(dataForm);
   //type ValueSelect = PropsValue<inputSelect> | string ;
-// typeof dataForm[name]?.value === "object" ? dataForm[name]?.value : "";
+  // typeof dataForm[name]?.value === "object" ? dataForm[name]?.value : "";
+
   if (type === "select" && typeof dataForm[name]?.value === "object") {
-    //const inputSelectValue : ValueSelect = dataForm[name]?.value;
+    //Ni el value, ni el label pueden ser undefined, por lo tanto se debe hacer un chequeo para que no de error de tipado.
     return (
       <div className="flex flex-col gap-y-2 text-myPlaceholder-500">
         {titleSelect}
         <Select options={options} placeholder={placeholder} value={dataForm[name]?.value} className={`text-myColorBlack-500 `} styles={customStyles} onChange={handleChangeSelectComponent} />
       </div>
     );
-  } else {
-    const inputValue: InputValueType = typeof dataForm[name]?.value === "string" ? dataForm[name]?.value : "";
+  } else if (errorObject) {
+    const inputValue: string = typeof dataForm[name]?.value === "string" ? dataForm[name]?.value : "";
     return (
       <div className="relative" ref={containerRef}>
         <input
@@ -156,12 +160,11 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
               onClick={(e) => {
                 e.preventDefault();
                 setSuggestions([]);
-                setDataForm({
-                  ...dataForm,
-                  city: {
-                    ...dataForm.city,
-                    value: "",
-                  },
+                setDataForm((prevDataForm) => {
+                  if (typeof prevDataForm.city?.value === "string") {
+                    prevDataForm.city.value = "";
+                  }
+                  return prevDataForm;
                 });
               }}
             >
