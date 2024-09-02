@@ -25,7 +25,7 @@ interface InputProps {
   errorObject?: ErrorFieldsForm;
 }
 
-const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, name, width, errorObject, options, titleSelect }) => {
+const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, name, errorObject, options, titleSelect }) => {
   const [suggestions, setSuggestions] = useState([]);
   const containerRef = useRef(null); // Referencia al contenedor
 
@@ -133,7 +133,7 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
   if (type === "select" && typeof dataForm[name]?.value === "object") {
     //Ni el value, ni el label pueden ser undefined, por lo tanto se debe hacer un chequeo para que no de error de tipado.
     return (
-      <div className="flex flex-col gap-y-2 text-myPlaceholder-500">
+      <div className="flex flex-col gap-y-2 text-myPlaceholder-500 text-sm sm:text-base">
         {titleSelect}
         <Select options={options} placeholder={placeholder} value={dataForm[name]?.value} className={`text-myColorBlack-500 `} styles={customStyles} onChange={handleChangeSelectComponent} />
       </div>
@@ -148,7 +148,7 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
           onChange={handleChange}
           type={type}
           placeholder={placeholder}
-          className={`${width} border-b-2 focus:outline-none text-myColorBlack-500 dark:text-myColorWhite-500 bg-transparent placeholder-myPlaceholder-500 pl-3 pb-1 
+          className={`w-full text-sm sm:text-base border-b-2 focus:outline-none text-myColorBlack-500 dark:text-myColorWhite-500 bg-transparent placeholder-myPlaceholder-500 pl-3 pb-1 
       ${!dataForm[name]?.red ? "border-myColorBlack-500" : "border-myColorRed-500"}   `}
         />
         <span className="absolute left-0 bottom-[-22px] text-red-500 text-stroke-black text-sm font-semibold ">{errorObject[name]?.message}</span>
@@ -174,7 +174,7 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
               ?.map((e, i) => {
                 return (
                   <div key={`${i}-${type}`} className="">
-                    <Button text={e} variant={"secondary"} widthButton={true} type={"button"} handleFunction={handleSelect} to={e} />
+                    <Button text={e} variant={"secondary"} widthButton={true} type={"button"} handleFunction={handleSelect} to={e} fontSize={"normal"}/>
                   </div>
                 );
               })

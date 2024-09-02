@@ -97,7 +97,7 @@ const config: Config = {
       },
       //screens 
       screens: {
-        'h-sm': { 'raw': '(max-height: 700px)' }, // Define el breakpoint para pantallas de menos de 700px de altura
+        'h-sm': { 'raw': '(max-height: 600px)' }, // Define el breakpoint para pantallas de menos de 700px de altura
       },
     },
   },

@@ -10,7 +10,7 @@ const FloatBtn = () => {
       onClick={() => {
         router.push("/");
       }}
-      className={`absolute -top-[-70px] left-20 p-2 shadow-custom  border-myColorBlack-500 ${hoverEffect}  bg-secondary-500 dark:bg-secondary-700`}
+      className={`absolute -top-[-15px] md:-top-[-70px] left-8 md:left-20 p-2 shadow-custom  border-myColorBlack-500 ${hoverEffect}  bg-secondary-500 dark:bg-secondary-700`}
     >
       <ArrowLeftIcon className="size-8" />
     </button>
