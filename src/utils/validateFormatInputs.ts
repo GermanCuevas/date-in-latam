@@ -28,7 +28,7 @@ const validateFormatInputs = async ({ dataForm, setErrorObject }: validateFormat
 
   if (dataForm.password && objMessage.password) {
     const password = dataForm["password"]?.value;
-    if (!passwordRegex.test(password)) objMessage.password.message = "Password: mínimo 6 caracteres y un número.";
+    if (!passwordRegex.test(password)) objMessage.password.message = "Mínimo: 6 caracteres y un número.";
   }
 
   if (dataForm.repeatPassword && objMessage.repeatPassword) {

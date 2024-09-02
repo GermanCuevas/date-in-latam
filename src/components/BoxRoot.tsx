@@ -13,11 +13,13 @@ const BoxRoot = () => {
   const redirectionHandle = (to: string)=>{
     router.push(to)
   }
+
+  //text-base
   return (
     <div className="flex flex-col p-5 shadow-xl rounded-md gap-y-8 bg-myColorTransparent-500">
-      <Button type="button" text={"Regístrese para comenzar el viaje 😄"} variant={"primary"} to="register" handleFunction={redirectionHandle} />
-      <Button type="button" text={"¡ Ya tengo cuenta !"} variant={"secondary"} to="login" handleFunction={redirectionHandle} />
-      <Button type="button" text={"Solo quiero hechar un vistazo  👀"} variant={"secondary"} to="discover" handleFunction={redirectionHandle}/>
+      <Button type="button" text={"Regístrese para comenzar el viaje 😄"} variant={"primary"} to="register" handleFunction={redirectionHandle} fontSize={"normal"} />
+      <Button type="button" text={"¡ Ya tengo cuenta !"} variant={"secondary"} to="login" handleFunction={redirectionHandle} fontSize={"normal"}/>
+      <Button type="button" text={"Solo quiero hechar un vistazo  👀"} variant={"secondary"} to="discover" handleFunction={redirectionHandle} fontSize={"normal"}/>
     </div>
   );
 };

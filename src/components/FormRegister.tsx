@@ -30,10 +30,10 @@ const Form = () => {
   });
 
   const [dataInputs] = useState(dataToInputs);
-
+  
   const renderArray = (obj: InputField[]) => {
     if (Array.isArray(obj)) {
-      return MultipleInputs({dataArray: obj, setDataForm, dataForm, widthBox, dataLength: obj.length, errorObject});
+      return MultipleInputs({dataArray: obj, setDataForm, dataForm, widthBox, dataLength: obj.length, errorObject, widthWindow: window.innerWidth});
     }
   };
 
@@ -65,16 +65,16 @@ const Form = () => {
   };
 
   const fontWeight = "font-semibold";
-  const widthBox = "w-[470px] ";
+  const widthBox = "w-[470px]";
   return (
     <form className={`flex flex-col p-5 shadow-xl rounded-md gap-y-6 bg-myColorTransparent-500 ${fontWeight}`}>
       {mapingData()}
-      <div className={`${widthBox} text-center mt-2`}>
-        <p className="text-myColorBlack-500 dark:text-myColorWhite-500 font-normal">
+      <div className={`w-[260px] sm:w-[470px] text-center mt-2`}>
+        <p className="text-myColorBlack-500 dark:text-myColorWhite-500 font-normal text-sm sm:text-base">
           Al registrarte, confirmas que tienes más de 18 años y aceptas nuestros <span className="font-black">Términos y Condiciones</span>, los cuales incluyen nuestras <span className="font-black">políticas de cookies</span>.
         </p>
       </div>
-      <Button text={"Registrarme ahora"} variant={"primary"} type="submit" handleFunction={handleSubmit} to={""} fontSize={""} Icon={null} widthButton={false} />
+      <Button text={"Registrarme ahora"} variant={"primary"} type="submit" handleFunction={handleSubmit} to={""} fontSize={"normal"} widthButton={false} />
     </form>
   );
 };

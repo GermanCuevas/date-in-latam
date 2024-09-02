@@ -12,9 +12,9 @@ const FloatBtn = () => {
         document.documentElement.classList.toggle("dark");
         setDarkModeOn(!darkModeOn);
       }}
-      className={`absolute -bottom-[-20px] right-20 p-5 shadow-custom  border-myColorBlack-500 rounded-full ${hoverEffect} float-animation bg-secondary-500 dark:bg-secondary-700`}
+      className={`fixed -bottom-[-10px] right-0 sm:right-20 p-3 sm:p-5 shadow-custom  border-myColorBlack-500 rounded-full ${hoverEffect} float-animation bg-secondary-500 dark:bg-secondary-700`}
     >
-      {!darkModeOn ? <MoonIcon className="size-7 spin-animation" /> : <SunIcon className="size-7 spin-animation" />}
+      {!darkModeOn ? <MoonIcon className="size-5 spin-animation sm:size-7" /> : <SunIcon className="size-5 spin-animation sm:size-7" />}
     </button>
   );
 };
