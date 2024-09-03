@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${lato.className} bg-myColorWhite-500 dark:bg-myColorBlack-600 `}>
+      <body className={`${lato.className} bg-myColorWhite-500 dark:bg-myColorBlack-600  `}>
           {children}
           <FloatBtn />
           <Version />

@@ -6,8 +6,10 @@ import Landing from "@/components/Landing";
 //Restamos 65px para que el contenido no se salga de la pantalla. Los 65px corresponden a la altura del header.
 export default function Home() {
   return (
-    <div className="flex flex-col gap-16  items-center min-h-[calc(100vh-65px)] justify-center">
+    <div className="flex gap-16 items-center h-screen justify-center">
       <Landing />
     </div>
   );
 }
+//h-screen
+//sm:min-h-[calc(100vh-65px)]
