@@ -14,13 +14,15 @@ interface ButtonProps {
 }
 
 const Button: FC<ButtonProps> = ({ text, type, handleFunction, to, variant, fontSize, Icon, widthButton }) => {
+
   const variantSwitch = {
     primary: `bg-vibrant-500 hover:bg-vibrant-600`,
     secondary: `bg-myColorTransparent-500 hover:bg-vibrant-300`,
   };
+
   const fontSizeSwitch = {
     normal: "text-sm sm:text-base",
-    large: "s",
+    large: "text-sm sm:text-4xl sm:font-bold",
   };
   //text-base
   //hover:bg-vibrant-600
@@ -44,7 +46,7 @@ const Button: FC<ButtonProps> = ({ text, type, handleFunction, to, variant, font
       }}
     >
       {text}
-      {Icon && <Icon className="h-[40px]" />}
+      {Icon && <Icon className="h-[20px] sm:h-[40px]" />}
     </button>
   );
 };
