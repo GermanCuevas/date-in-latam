@@ -1,4 +1,6 @@
+
 const Discover = () => {
+  //const { t } = await useTranslation(lng)
   const dummyArray = [
     { name: "Juan", edad: 25 },
     { name: "María", edad: 30 },
@@ -17,7 +19,7 @@ const Discover = () => {
 //text-myColorBlack-500 dark:text-myColorWhite-500
   return (
     <div className="flex relative sm:h-screen pt-20 pb-20 sm:pb-0 sm:pt-[65px]">
-      <h1>Discover</h1>
+      <h1 className="text-myColorBlack-600">Discover</h1>
       <div>
         {dummyArray.map((e) => {
           return (
