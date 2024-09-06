@@ -5,9 +5,9 @@ import Link from "next/link";
 const Header = () => {
   //const headeMobileFirst = ""
   return (
-    <header className={`h-[60px] md:h-[65px] fixed bottom-0 md:top-0 flex bg-gradientLight dark:bg-gradientDark justify-center z-10 w-full`}>
+    <header className={`h-[55px] md:h-[65px] fixed bottom-0 md:top-0 flex bg-gradientLight dark:bg-gradientDark justify-center z-10 w-full`}>
       <div className="flex w-[90%] items-center">
-        <div className="flex flex-1 ">
+        <div className="flex flex-1 gap-3 ">
           <Image src="/assets/DateinLatamLogo.svg" width={48} height={48} alt="Data in latam Logo" className="hidden lg:flex" />
           <Image src="/assets/LogoDate.svg" width={101} height={55} alt="Data in latam Logo" className="hidden lg:flex" />
         </div>

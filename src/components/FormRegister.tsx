@@ -1,19 +1,28 @@
 "use client";
 import Button from "@/commons/Button";
 import InputForm from "@/commons/InputForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import validateEmptyFields from "@/utils/validateEmptyFields";
 import MultipleInputs from "./MultipleInputs";
 import validateFormatInputs from "@/utils/validateFormatInputs";
-import {dataToInputs} from "@/utils/dataToInputs";
+import { dataToInputs } from "@/utils/dataToInputs";
 import React from "react";
 import FormFields from "@/types/FormFields";
 import { InputField } from "@/utils/dataToInputs";
-
-
+import { usePathname } from "next/navigation.js";
 
 //Cuando se hacen los datos a pedir en el formulario, asegurarse de que el "name" sea el mismo que el "label" que va en el useState
 const Form = () => {
+  const pathname = usePathname(); // Obtiene la URL actual
+  const [currentPath, setCurrentPath] = useState(pathname);
+  console.log("kkk==>", pathname);
+
+  useEffect(() => {
+    if (pathname !== "es/register") {
+      console.log("que?");
+    }
+  }, []);
+
   const [errorObject, setErrorObject] = useState({});
   const [dataForm, setDataForm] = useState<FormFields>({
     email: { value: "", red: false, label: "email" },
@@ -30,10 +39,10 @@ const Form = () => {
   });
 
   const [dataInputs] = useState(dataToInputs);
-  
+
   const renderArray = (obj: InputField[]) => {
     if (Array.isArray(obj)) {
-      return MultipleInputs({dataArray: obj, setDataForm, dataForm, widthBox, dataLength: obj.length, errorObject, widthWindow: window.innerWidth});
+      return MultipleInputs({ dataArray: obj, setDataForm, dataForm, widthBox, dataLength: obj.length, errorObject, widthWindow: window.innerWidth });
     }
   };
 
@@ -54,12 +63,12 @@ const Form = () => {
   };
 
   const handleSubmit = async () => {
-    const notSendSubmit = await validateEmptyFields({setDataForm});
+    const notSendSubmit = await validateEmptyFields({ setDataForm });
     if (notSendSubmit) {
       console.log("El formulario no se debe enviar, hay campos vacios");
       // return;
     }
-    await validateFormatInputs({dataForm, setErrorObject});
+    await validateFormatInputs({ dataForm, setErrorObject });
     console.log("dataForm en componente Form=>", dataForm);
     //router.push("/welcome");
   };

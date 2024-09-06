@@ -2,7 +2,6 @@
 import "./globals.css";
 import Header from "@/components/Header";
 import { usePathname } from "next/navigation";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import SelectLanguaje from "@/components/SelectLanguaje";
 
@@ -12,7 +11,7 @@ export default function Template({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const [lng, setLanguage] = useState<string | null>(null);
+  const [lng, setLanguage] = useState<string>("");
   useEffect(() => {
     const lang = document.documentElement.lang;
     setLanguage(lang);
