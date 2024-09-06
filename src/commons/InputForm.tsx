@@ -151,7 +151,7 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
           className={`w-full text-sm sm:text-base border-b-2 focus:outline-none text-myColorBlack-500 dark:text-myColorWhite-500 bg-transparent placeholder-myPlaceholder-500 pl-3 pb-1 
       ${!dataForm[name]?.red ? "border-myColorBlack-500" : "border-myColorRed-500"}   `}
         />
-        <span className="absolute left-0 bottom-[-22px] text-red-500 text-stroke-black text-sm font-semibold ">{errorObject[name]?.message}</span>
+        {/* <span className="absolute left-0 bottom-[-22px] text-red-500 text-stroke-black text-sm font-semibold ">{errorObject[name]?.message}</span> */}
         {suggestions.length > 0 && name === "city" ? (
           <div className="absolute bg-gradientLight dark:bg-gradientDark z-10 flex flex-col gap-y-1 rounded-md mt-1 w-full p-1">
             <button

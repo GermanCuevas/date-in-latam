@@ -1,27 +1,38 @@
 "use client";
-import Select, { SingleValue, OptionsOrGroups, ActionMeta } from "react-select";
+import Select, { SingleValue, ActionMeta } from "react-select";
 import { usePathname, useRouter } from "next/navigation.js";
 
 const countryOptions = [
-  { value: "en", label: "ENG", flag: "assets/select/England.svg" },
-  { value: "es", label: "ESP", flag: "assets/select/Spain.svg" },
+  { value: "en", label: "ENG", flag: "/assets/select/England.svg" },
+  { value: "es", label: "ESP", flag: "/assets/select/Spain.svg" },
 ];
 
-const SelectLanguaje = ({ lng }) => {
+interface lngInterface {
+  lng: string;
+}
+
+const SelectLanguaje = ({ lng }: lngInterface) => {
   const router = useRouter();
   const path = usePathname();
+
   const actualLanguage = {
     value: lng,
     label: `${lng}`.toUpperCase(),
   };
 
   const registerPath = path.replace("/es", "").replace("/en", "");
-  console.log(registerPath);
 
-  const handleSelectLanguaje = (newValue) => {
+  interface inputSelect {
+    value: string;
+    label: string;
+  }
+
+  const handleSelectLanguaje = (newValue: SingleValue<inputSelect>, _actionMeta: ActionMeta<inputSelect>) => {
     console.log(newValue);
-    const value = newValue.value;
-    router.push(`/${value}${registerPath}`);
+    if (newValue) {
+      const value = newValue.value;
+      router.push(`/${value}${registerPath}`);
+    }
   };
 
   const customStyles = {
@@ -39,37 +50,49 @@ const SelectLanguaje = ({ lng }) => {
       backgroundColor: "rgb(106, 5, 69, .5)", // Cambia el color de fondo del menú desplegable
       fontSize: "12px",
     }),
-    option: (provided, state) => ({
+    option: (provided: {}, state: { isFocused: boolean }) => ({
       ...provided,
       backgroundColor: state.isFocused ? "rgba(222, 199, 252, 0.25)" : "transparent", // Cambia el fondo de las opciones cuando se seleccionan o están enfocadas
       color: "#F0F0F0",
       cursor: "pointer",
     }),
-    singleValue: (provided) => ({
+    singleValue: (provided: {}) => ({
       ...provided,
       color: "#F0F0F0", // Cambia el color del texto de la opción seleccionada
     }),
   };
+  interface customOptionRendererInterface {
+    innerProps?: {};
+    label: string;
+    data: {
+      flag?: string;
+      value: string;
+      label: string;
+    };
+  }
 
-  const customOptionRenderer = ({ innerProps, label, data }) => (
-    <div
-      {...innerProps}
-      style={{
-        cursor: "pointer",
-        color: "#fff",
-        fontSize: "14px",
-        fontWeight: "400",
-        background: "transparent",
-        display: "flex",
-        alignItems: "center",
-        gap: "5px",
-        paddingLeft: "5px",
-      }}
-    >
-      <img src={data.flag} alt={label} style={customStyles.optionImage} />
-      <span>{label}</span>
-    </div>
-  );
+  const customOptionRenderer = ({ innerProps, label, data }: customOptionRendererInterface) => {
+    console.log("aflag==>", data.flag);
+    return (
+      <div
+        {...innerProps}
+        style={{
+          cursor: "pointer",
+          color: "#fff",
+          fontSize: "14px",
+          fontWeight: "400",
+          background: "transparent",
+          display: "flex",
+          alignItems: "center",
+          gap: "5px",
+          paddingLeft: "5px",
+        }}
+      >
+        <img src={data.flag} alt={label} style={customStyles.optionImage} />
+        <span>{label}</span>
+      </div>
+    );
+  };
 
   return (
     <div className=" absolute top-5 sm:top-10 right-2 sm:right-20 z-20">
@@ -88,6 +111,3 @@ const SelectLanguaje = ({ lng }) => {
 };
 
 export default SelectLanguaje;
-
-/*  console.log("lng en select change languaje", lng);
-  console.log("languajes de settings", languages); */
