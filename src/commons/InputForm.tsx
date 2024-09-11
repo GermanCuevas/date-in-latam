@@ -23,9 +23,11 @@ interface InputProps {
   setDataForm: Dispatch<SetStateAction<FormFields>>;
   dataForm: FormFields;
   errorObject?: ErrorFieldsForm;
+  fontSizeInput: "normal" | "large";
+  handleTitleChange?: () => void;
 }
 
-const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, name, errorObject, options, titleSelect }) => {
+const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, name, errorObject, options, titleSelect, fontSizeInput }) => {
   const [suggestions, setSuggestions] = useState([]);
   const containerRef = useRef(null); // Referencia al contenedor
 
@@ -54,24 +56,28 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
   }, [dataForm?.day?.value?.value, dataForm?.month?.value?.value, dataForm?.year?.value?.value]);
 
   const handleChange = async (newValue: ChangeEvent<HTMLInputElement>) => {
-    if (newValue) {
-      setDataForm((prevDataForm) => ({
-        ...prevDataForm,
-        [name]: {
-          ...prevDataForm[name],
-          value: newValue.target.value,
-        },
-      }));
-      if (name === "city" && newValue.target.value.length > 3) {
-        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${newValue.target.value}&format=json`);
-        const data = await response.json();
-        const displaysNames = data.map((item: { display_name: string }) => item.display_name); // Obtiene los nombres de las ciudades
-        setSuggestions(displaysNames);
+    //if (name !== "titleProfile") {
+    console.log(newValue.target.value);
+    
+      if (newValue) {
+        setDataForm((prevDataForm) => ({
+          ...prevDataForm,
+          [name]: {
+            ...prevDataForm[name],
+            value: newValue.target.value,
+          },
+        }));
+        if (name === "city" && newValue.target.value.length > 3) {
+          const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${newValue.target.value}&format=json`);
+          const data = await response.json();
+          const displaysNames = data.map((item: { display_name: string }) => item.display_name); // Obtiene los nombres de las ciudades
+          setSuggestions(displaysNames);
+        }
+        if (name === "city" && newValue.target.value.length <= 3) {
+          setSuggestions([]);
+        }
       }
-      if (name === "city" && newValue.target.value.length <= 3) {
-        setSuggestions([]);
-      }
-    }
+   // }
   };
 
   const handleChangeSelectComponent = async (newValue: SingleValue<string | inputSelect>, _actionMeta: ActionMeta<inputSelect>) => {
@@ -95,7 +101,6 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
   };
 
   const handleSelect = (namePlace: string) => {
-
     setDataForm((prevDataForm) => {
       if (typeof prevDataForm.city?.value === "string") {
         prevDataForm.city.value = namePlace;
@@ -112,24 +117,6 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
     setSuggestions([]);
   };
 
-  // Maneja clics fuera de los elementos relevantes
-  /*     useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (containerRef.current) {
-          setSuggestions([]);
-        }
-      };
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, []); */
-
-  //type InputValueType = string;
-  //console.log(dataForm);
-  //type ValueSelect = PropsValue<inputSelect> | string ;
-  // typeof dataForm[name]?.value === "object" ? dataForm[name]?.value : "";
-
   if (type === "select" && typeof dataForm[name]?.value === "object") {
     //Ni el value, ni el label pueden ser undefined, por lo tanto se debe hacer un chequeo para que no de error de tipado.
     return (
@@ -139,6 +126,11 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
       </div>
     );
   } else if (errorObject) {
+    const fontSizeSwitch = {
+      normal: "text-sm sm:text-base",
+      large: "text-3xl sm:text-6xl",
+    };
+
     const inputValue: string = typeof dataForm[name]?.value === "string" ? dataForm[name]?.value : "";
     return (
       <div className="relative" ref={containerRef}>
@@ -148,7 +140,7 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
           onChange={handleChange}
           type={type}
           placeholder={placeholder}
-          className={`w-full text-sm sm:text-base border-b-2 focus:outline-none text-myColorBlack-500 dark:text-myColorWhite-500 bg-transparent placeholder-myPlaceholder-500 pl-3 pb-1 
+          className={`w-full ${fontSizeSwitch[fontSizeInput]} italic  border-b-2 focus:outline-none text-myColorBlack-500 dark:text-myColorWhite-500 bg-transparent placeholder-myPlaceholder-500 pl-3 pb-1 
       ${!dataForm[name]?.red ? "border-myColorBlack-500" : "border-myColorRed-500"}   `}
         />
         {/* <span className="absolute left-0 bottom-[-22px] text-red-500 text-stroke-black text-sm font-semibold ">{errorObject[name]?.message}</span> */}
@@ -174,7 +166,7 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
               ?.map((e, i) => {
                 return (
                   <div key={`${i}-${type}`} className="">
-                    <Button text={e} variant={"secondary"} widthButton={true} type={"button"} handleFunction={handleSelect} to={e} fontSize={"normal"}/>
+                    <Button text={e} variant={"secondary"} widthButton={true} type={"button"} handleFunction={handleSelect} to={e} fontSize={"normal"} />
                   </div>
                 );
               })

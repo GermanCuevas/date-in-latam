@@ -28,6 +28,7 @@ interface FormFields {
   toKnow?: InputFieldWithSelect;
   password?: InputField;
   repeatPassword?: InputField;
+  titleProfile?:InputField;
 }
 
 export default FormFields;

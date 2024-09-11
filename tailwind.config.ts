@@ -76,6 +76,7 @@ const config: Config = {
         },
         myColorTransparent: {
           500: "rgba(222, 199, 252, 0.25)",
+          600: "rgba(222, 199, 252, 0.9)",
         },
         myPlaceholder: {
           500: "#D4C4C4",

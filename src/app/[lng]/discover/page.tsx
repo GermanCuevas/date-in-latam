@@ -21,9 +21,9 @@ const Discover = () => {
     <div className="flex relative sm:h-screen pt-20 pb-20 sm:pb-0 sm:pt-[65px]">
       <h1 className="text-myColorBlack-600">Discover</h1>
       <div>
-        {dummyArray.map((e) => {
+        {dummyArray.map((e,idx) => {
           return (
-            <div className="h-[80px] sm:mt-[100px] ">
+            <div key={`${idx}-name`} className="h-[80px] sm:mt-[100px] ">
               <p>{e.name}</p>
               <p>{e.edad}</p>
             </div>

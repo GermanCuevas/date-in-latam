@@ -61,7 +61,7 @@ const validateFormatInputs = async ({ dataForm, setErrorObject }: validateFormat
     const surname = dataForm["surname"]?.value;
     if (!nameRegex.test(surname)) {
       objMessage.surname.message = "No debe contener números.";
-      toast("Al apellido no tener números.", { position: "bottom-center", style: { backgroundColor: colorToast, border: "2px solid #948ffa" } });
+      toast("El apellido no debe tener números.", { position: "bottom-center", style: { backgroundColor: colorToast, border: "2px solid #948ffa" } });
     }
   }
 

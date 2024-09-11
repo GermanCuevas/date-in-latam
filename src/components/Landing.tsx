@@ -3,14 +3,17 @@ import Button from "@/commons/Button";
 import Image from "next/image";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 //max-w-3xl
 const Landing = () => {
+  const router = useRouter()
   // Estado para almacenar el número de la imagen
   const [imageNumber, setImageNumber] = useState(1);
 
-  const handleClick = () => {
+  const handleClick = (to) => {
     console.log("click");
+    router.push(to)
   };
   // useEffect para generar un número aleatorio al montar el componente
   useEffect(() => {
@@ -30,7 +33,7 @@ const Landing = () => {
           <Image src={`/assets/landing0${imageNumber}.png`} width={150} height={150} alt={`Logo en landing ${imageNumber}`} className="md:hidden" />
         </div>
         <div className="flex md:self-start md:justify-self-end">
-          <Button to={"parametroFalso"} type={"button"} text={"¡Configuremos tu perfil!"} variant={"primary"} fontSize={"large"} Icon={ArrowRightIcon} handleFunction={handleClick} />
+          <Button to={"/my-profile"} type={"button"} text={"¡Configuremos tu perfil!"} variant={"primary"} fontSize={"large"} Icon={ArrowRightIcon} handleFunction={handleClick}  />
         </div>
       </div>
       <div className="hidden md:flex md:w-[400px] md:items-end" >
