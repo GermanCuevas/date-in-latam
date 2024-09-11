@@ -55,6 +55,33 @@ body {
   }
 }
 
+/* .big-image{
+  animation: imageBig 2s linear;
+}
+
+@keyframes imageBig {
+  0% {
+    transform: scale(2);
+  }
+} */
+.big-image {
+  animation: imageBig 2s linear forwards;
+  position: absolute;
+  z-index: 10;
+  left: 0;
+}
+
+@keyframes imageBig {
+  0% {
+    width: 120px;
+    height: 120px;
+  }
+  100% {
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
 .float-animation {
   animation: float 5s ease-in-out infinite;
 }
@@ -70,4 +97,5 @@ body {
     -1px -1px 0 #333333,
     1px -1px 0 #333333;
 }
+
 
