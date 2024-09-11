@@ -9,7 +9,13 @@ import "./globals.css";
 
 //className="flex items-center justify-center relative h-screen"
 
-export default async function Home({ params: { lng } }) {
+type HomeProps = {
+  params: {
+    lng: string; // Define 'lng' as a string
+  };
+};
+
+export default async function Home({ params: { lng } }: HomeProps) {
   // console.log("lng ==>", lng);
   // console.log("useTranslation =>", useTranslation);
   // const { t:traductor } = await useTranslation(lng, "about")
