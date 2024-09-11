@@ -1,17 +1,24 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect , Dispatch, SetStateAction } from "react";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import Button from "./Button";
 
+interface interfaceState {
+  title: string
+  aboutMe: string
+  aboutYou: string
+};
+type KeyState = keyof interfaceState;
 interface Props {
   titleTextArea: string;
   maxLength: number;
-  name: string;
-  setDataFromBack: () => void;
-  dataFromBack: {};
-  dataChanged: {};
+  name: KeyState;
+  setDataFromBack: Dispatch<SetStateAction<interfaceState>>;
+  setDataChanged: Dispatch<SetStateAction<interfaceState>>;
+  dataFromBack: interfaceState;
+  dataChanged: interfaceState;
 }
 
-const TextArea = ({ titleTextArea, maxLength, name, setDataFromBack, dataFromBack, dataChanged, setDataChanged }: Props) => {
+const TextArea = ({ titleTextArea, maxLength, name, setDataFromBack, dataFromBack, dataChanged, setDataChanged  }: Props) => {
   const [showOptions, setShowOptions] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [disabled, setDisabled] = useState(true);
