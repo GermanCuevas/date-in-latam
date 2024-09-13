@@ -7,13 +7,13 @@ import { useRouter } from "next/navigation";
 
 //max-w-3xl
 const Landing = () => {
-  const router = useRouter()
+  const router = useRouter();
   // Estado para almacenar el número de la imagen
   const [imageNumber, setImageNumber] = useState(1);
 
-  const handleClick = (to) => {
+  const handleClick = (to: string) => {
     console.log("click");
-    router.push(to)
+    router.push(to);
   };
   // useEffect para generar un número aleatorio al montar el componente
   useEffect(() => {
@@ -33,10 +33,10 @@ const Landing = () => {
           <Image src={`/assets/landing0${imageNumber}.png`} width={150} height={150} alt={`Logo en landing ${imageNumber}`} className="md:hidden" />
         </div>
         <div className="flex md:self-start md:justify-self-end">
-          <Button to={"/my-profile"} type={"button"} text={"¡Configuremos tu perfil!"} variant={"primary"} fontSize={"large"} Icon={ArrowRightIcon} handleFunction={handleClick}  />
+          <Button to={"/my-profile"} type={"button"} text={"¡Configuremos tu perfil!"} variant={"primary"} fontSize={"large"} Icon={ArrowRightIcon} handleFunction={handleClick} />
         </div>
       </div>
-      <div className="hidden md:flex md:w-[400px] md:items-end" >
+      <div className="hidden md:flex md:w-[400px] md:items-end">
         <Image src={`/assets/landing0${imageNumber}.png`} width={400} height={400} alt={`Logo en landing ${imageNumber}`} className="hidden md:block" />
       </div>
     </div>

@@ -41,7 +41,7 @@ const Form = () => {
     <>
       <form className={`flex flex-col p-5 shadow-xl rounded-md gap-y-16 bg-myColorTransparent-500 ${fontWeight} w-[290px] sm:w-[340px]`}>
         {dataInputsLogin.map(({ type, placeholder, name }: InputField) => {
-          return <InputForm key={name} type={type} placeholder={placeholder} name={name} setDataForm={setDataForm} dataForm={dataForm} width={"w-72"} errorObject={errorObject} titleSelect={""} />;
+          return <InputForm key={name} type={type} placeholder={placeholder} name={name} setDataForm={setDataForm} dataForm={dataForm} width={"w-72"} errorObject={errorObject} titleSelect={""} fontSizeInput={"normal"} />;
         })}
         <Button text={"Ingresar 💖"} variant={"primary"} type="submit" handleFunction={handleSubmit} to={""} fontSize={"normal"} />
       </form>

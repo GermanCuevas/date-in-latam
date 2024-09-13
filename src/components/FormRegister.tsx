@@ -15,7 +15,6 @@ import { usePathname } from "next/navigation.js";
 const Form = () => {
   const pathname = usePathname(); // Obtiene la URL actual
   const [currentPath, setCurrentPath] = useState(pathname);
-  console.log("kkk==>", pathname);
 
   useEffect(() => {
     if (pathname !== "es/register") {
@@ -40,15 +39,32 @@ const Form = () => {
 
   const [dataInputs] = useState(dataToInputs);
 
+
+  const [innerWidth, setInnerWidth] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const handleResize = () => {
+        setInnerWidth(window.innerWidth);
+      };
+      window.addEventListener("resize", handleResize);
+      handleResize(); // Ejecuta la función inmediatamente para establecer el valor inicial
+
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
+  }, []);
+
   const renderArray = (obj: InputField[]) => {
     if (Array.isArray(obj)) {
-      return MultipleInputs({ dataArray: obj, setDataForm, dataForm, widthBox, dataLength: obj.length, errorObject, widthWindow: window.innerWidth });
+      return MultipleInputs({ dataArray: obj, setDataForm, dataForm, dataLength: obj.length, errorObject, widthWindow: innerWidth });
     }
   };
 
   const mapingData = () => {
     const dataMap = dataInputs.map((obj, idx) => {
-      return <React.Fragment key={`${idx}-map-inputs`}>{Array.isArray(obj) ? renderArray(obj) : <InputForm type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={widthBox} errorObject={errorObject} options={obj.options} titleSelect={obj?.titleBox} />}</React.Fragment>;
+      return <React.Fragment key={`${idx}-map-inputs`}>{Array.isArray(obj) ? renderArray(obj) : <InputForm fontSizeInput={"normal"} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={widthBox} errorObject={errorObject} options={obj.options} titleSelect={obj?.titleBox} />}</React.Fragment>;
     });
     const middleIndex = Math.ceil(dataMap.length / 2); // Calcula la mitad del array
     const firstHalf = dataMap.slice(0, middleIndex);
