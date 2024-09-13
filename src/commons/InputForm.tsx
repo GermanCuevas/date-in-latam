@@ -58,26 +58,26 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
   const handleChange = async (newValue: ChangeEvent<HTMLInputElement>) => {
     //if (name !== "titleProfile") {
     console.log(newValue.target.value);
-    
-      if (newValue) {
-        setDataForm((prevDataForm) => ({
-          ...prevDataForm,
-          [name]: {
-            ...prevDataForm[name],
-            value: newValue.target.value,
-          },
-        }));
-        if (name === "city" && newValue.target.value.length > 3) {
-          const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${newValue.target.value}&format=json`);
-          const data = await response.json();
-          const displaysNames = data.map((item: { display_name: string }) => item.display_name); // Obtiene los nombres de las ciudades
-          setSuggestions(displaysNames);
-        }
-        if (name === "city" && newValue.target.value.length <= 3) {
-          setSuggestions([]);
-        }
+
+    if (newValue) {
+      setDataForm((prevDataForm) => ({
+        ...prevDataForm,
+        [name]: {
+          ...prevDataForm[name],
+          value: newValue.target.value,
+        },
+      }));
+      if (name === "city" && newValue.target.value.length > 3) {
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${newValue.target.value}&format=json`);
+        const data = await response.json();
+        const displaysNames = data.map((item: { display_name: string }) => item.display_name); // Obtiene los nombres de las ciudades
+        setSuggestions(displaysNames);
       }
-   // }
+      if (name === "city" && newValue.target.value.length <= 3) {
+        setSuggestions([]);
+      }
+    }
+    // }
   };
 
   const handleChangeSelectComponent = async (newValue: SingleValue<string | inputSelect>, _actionMeta: ActionMeta<inputSelect>) => {
@@ -117,12 +117,13 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
     setSuggestions([]);
   };
 
-  if (type === "select" && typeof dataForm[name]?.value === "object") {
-    //Ni el value, ni el label pueden ser undefined, por lo tanto se debe hacer un chequeo para que no de error de tipado.
+  
+  if (type === "select" && dataForm[name]?.value && typeof dataForm[name]?.value === "object" && typeof dataForm[name]?.value !== "string") {
+    const inputValueToSelect: inputSelect = dataForm[name]?.value as inputSelect;
     return (
       <div className="flex flex-col gap-y-2 text-myPlaceholder-500 text-sm sm:text-base">
         {titleSelect}
-        <Select options={options} placeholder={placeholder} value={dataForm[name]?.value} className={`text-myColorBlack-500 `} styles={customStyles} onChange={handleChangeSelectComponent} />
+        <Select options={options} placeholder={placeholder} value={inputValueToSelect} className={`text-myColorBlack-500 `} styles={customStyles} onChange={handleChangeSelectComponent} />
       </div>
     );
   } else if (errorObject) {
@@ -130,8 +131,7 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
       normal: "text-sm sm:text-base",
       large: "text-3xl sm:text-6xl",
     };
-
-    const inputValue: string = typeof dataForm[name]?.value === "string" ? dataForm[name]?.value : "";
+    const inputValue: string = dataForm[name]?.value as string;
     return (
       <div className="relative" ref={containerRef}>
         <input

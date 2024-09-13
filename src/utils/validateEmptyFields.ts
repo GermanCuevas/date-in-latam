@@ -6,45 +6,51 @@ interface validateEmptyFieldsInterface {
 
 const validateEmptyFields = async ({ setDataForm }: validateEmptyFieldsInterface) => {
   let notSendSubmit = false;
+
   setDataForm((prevDataForm) => {
-    for (let key in prevDataForm) {
+    const updatedDataForm = { ...prevDataForm }; // Crea una copia para no mutar directamente el estado.
+
+    for (let key in updatedDataForm) {
       const typedKey = key as keyof FormFields;
-      if (typeof prevDataForm[typedKey]?.value === "string") {
-        if (prevDataForm[typedKey]?.value === "") {
-          if (prevDataForm[typedKey].hasOwnProperty("red")) {
-            prevDataForm[typedKey].red = true;
+      const field = updatedDataForm[typedKey];
+
+      if (field) {
+        // Asegúrate de que el campo no sea undefined
+        if (typeof field.value === "string" && field.value === "") {
+          if (field.hasOwnProperty("red")) {
+            field.red = true;
           }
-        }
-      } else if (typeof prevDataForm[typedKey]?.value === "object") {
-        if (prevDataForm[typedKey]?.value?.value === "") {
-          if (prevDataForm[typedKey].hasOwnProperty("red")) {
-            prevDataForm[typedKey].red = true;
+        } else if (typeof field.value === "object" && field.value?.value === "") {
+          if (field.hasOwnProperty("red")) {
+            field.red = true;
           }
         }
       }
     }
-    return prevDataForm;
+
+    return updatedDataForm; // Devuelve la copia actualizada
   });
 
   setTimeout(() => {
     setDataForm((prevDataForm) => {
       for (let key in prevDataForm) {
         const typedKey = key as keyof FormFields;
-        if (typeof prevDataForm[typedKey]?.value === "string") {
-          if (prevDataForm[typedKey]?.red) {
-            if (prevDataForm[typedKey].hasOwnProperty("red")) {
-              prevDataForm[typedKey].red = false;
+        const field = prevDataForm[typedKey];
+
+        if (field) {
+          // Asegúrate de que el campo no sea undefined
+          if (typeof field.value === "string" && field.red) {
+            if (field.hasOwnProperty("red")) {
+              field.red = false; // Modificación directa
             }
-          }
-        } else if (typeof prevDataForm[typedKey]?.value === "object") {
-          if (prevDataForm[typedKey]?.red) {
-            if (prevDataForm[typedKey].hasOwnProperty("red")) {
-              prevDataForm[typedKey].red = false;
+          } else if (typeof field.value === "object" && field.red) {
+            if (field.hasOwnProperty("red")) {
+              field.red = false; // Modificación directa
             }
           }
         }
       }
-      return prevDataForm;
+      return prevDataForm; // Se devuelve el mismo objeto modificado
     });
   }, 2000);
 

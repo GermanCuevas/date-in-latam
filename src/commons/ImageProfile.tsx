@@ -3,7 +3,13 @@ import { useState } from "react";
 import { XCircleIcon, TrashIcon } from "@heroicons/react/24/solid";
 //import { useRef } from "react";
 
-const ImageProfile = ({ image, idx,  handleDeleteByIdx }) => {
+interface Props {
+  image: string;
+  idx: number;
+  handleDeleteByIdx: (idx: number) => void;
+}
+
+const ImageProfile = ({ image, idx, handleDeleteByIdx }: Props) => {
   const [viewImg, setViewImg] = useState(false);
 
   console.log(idx);
@@ -17,7 +23,7 @@ const ImageProfile = ({ image, idx,  handleDeleteByIdx }) => {
           <TrashIcon
             className="size-7 right-2 bottom-2 absolute text-myColorRed-500"
             onClick={() => {
-              handleDeleteByIdx(idx)
+              handleDeleteByIdx(idx);
               setViewImg(false);
             }}
           />
