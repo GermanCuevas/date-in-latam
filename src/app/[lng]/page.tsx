@@ -26,8 +26,7 @@
 // }
 
 "use client";
-
-import { useEffect, useRef } from "react";
+//import { useEffect, useRef } from "react";
 import Image from "next/image";
 import BoxRoot from "../../components/BoxRoot";
 import "./globals.css";
@@ -39,40 +38,14 @@ type HomeProps = {
 };
 
 export default function Home({ params: { lng } }: HomeProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const updateHeight = () => {
-      if (containerRef.current) {
-        containerRef.current.style.height = `${window.innerHeight}px`;
-      }
-    };
-
-    // Set the height on component mount
-    updateHeight();
-
-    // Update the height on window resize
-    window.addEventListener("resize", updateHeight);
-
-    // Cleanup event listener on component unmount
-    return () => window.removeEventListener("resize", updateHeight);
-  }, []);
+  //const containerRef = useRef<HTMLDivElement>(null);
 
   const bg = "bg-gradientLight dark:bg-gradientDark";
 
   return (
-    <div
-      ref={containerRef}
-      className={`flex items-center justify-center relative ${bg}`}
-    >
+    <div className={`flex items-center justify-center relative  h-screen ${bg}`}>
       <div className="flex flex-col gap-24 sm:gap-16 items-center">
-        <Image
-          src="/assets/LogoDate.svg"
-          width={275}
-          height={161}
-          alt="Data in latam Logo"
-          className="sm:w-[339px] sm:h-[203px]"
-        />
+        <Image src="/assets/LogoDate.svg" width={275} height={161} alt="Data in latam Logo" className="sm:w-[339px] sm:h-[203px]" />
         <BoxRoot lng={lng} />
       </div>
     </div>
