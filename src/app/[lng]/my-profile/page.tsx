@@ -54,12 +54,12 @@ const MyProfile = () => {
     }
   };
 
-  useEffect(() => {
+/*   useEffect(() => {
     return () => {
       // Limpia las URLs temporales
       tempUrls.forEach((url) => URL.revokeObjectURL(url));
     };
-  }, [tempUrls]);
+  }, [tempUrls]); */
 
   const handleDeleteByIdx = async (idx: number) => {
     const updatedArray = arrayUrlImages.filter((_, index) => index !== idx);
@@ -67,6 +67,9 @@ const MyProfile = () => {
     setArrayUrlImages(updatedArray);
     setTempUrls(updatedTempUrls);
   };
+
+  console.log("arrayUrlImagesssssssss??",arrayUrlImages);
+  
 
   return (
     <div className="mt-[30px] mb-[130px] sm:mt-[65px] flex flex-col gap-5 relative">
@@ -101,8 +104,8 @@ const MyProfile = () => {
             </div>
             <span className="text-myColorBlack-500 dark:text-myColorWhite-500">{arrayUrlImages.length}/5</span>
           </div>
-          {arrayUrlImages.map((image, idx) => {
-            return <ImageProfile key={`${idx}-${image}`} image={image} idx={idx} handleDeleteByIdx={handleDeleteByIdx} />;
+          {arrayUrlImages.map((image, idx, array) => {
+            return <ImageProfile key={`${idx}-${image}`} image={image} idx={idx} handleDeleteByIdx={handleDeleteByIdx} array={array} />;
           })}
         </div>
       </section>
