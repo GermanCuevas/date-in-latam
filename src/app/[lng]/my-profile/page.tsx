@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useEffect, ChangeEvent, useState } from "react";
 import TextArea from "@/commons/TextArea";
 import ImageProfile from "@/commons/ImageProfile";
+import FormSetPreferences from "@/components/FormSetPreferences";
 
 interface interfaceState {
   title: string;
@@ -54,7 +55,7 @@ const MyProfile = () => {
     }
   };
 
-/*   useEffect(() => {
+  /*   useEffect(() => {
     return () => {
       // Limpia las URLs temporales
       tempUrls.forEach((url) => URL.revokeObjectURL(url));
@@ -67,9 +68,6 @@ const MyProfile = () => {
     setArrayUrlImages(updatedArray);
     setTempUrls(updatedTempUrls);
   };
-
-  console.log("arrayUrlImagesssssssss??",arrayUrlImages);
-  
 
   return (
     <div className="mt-[30px] mb-[130px] sm:mt-[65px] flex flex-col gap-5 relative">
@@ -108,6 +106,9 @@ const MyProfile = () => {
             return <ImageProfile key={`${idx}-${image}`} image={image} idx={idx} handleDeleteByIdx={handleDeleteByIdx} array={array} />;
           })}
         </div>
+      </section>
+      <section className="flex justify-center">
+        <FormSetPreferences />
       </section>
     </div>
   );

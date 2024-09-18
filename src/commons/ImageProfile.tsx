@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { XCircleIcon, TrashIcon, ArrowLeftEndOnRectangleIcon, ArrowRightEndOnRectangleIcon } from "@heroicons/react/24/solid";
+import Notification from "./Notification";
 //import { useRef } from "react";
 
 interface Props {
@@ -13,8 +14,10 @@ interface Props {
 const ImageProfile = ({ image, idx, handleDeleteByIdx, array }: Props) => {
   const [viewImgWithObj, setViewImgWithObj] = useState({ show: false });
   const [idxToChangeImg, setIdxToChangeImg] = useState(idx);
+  const [showNotification, setShowNotification] = useState(false);
 
   const handleClickNext = () => {
+    setShowNotification(false)
     if (cantScrollImgNext) {
       return;
     }
@@ -23,6 +26,7 @@ const ImageProfile = ({ image, idx, handleDeleteByIdx, array }: Props) => {
     setViewImgWithObj({ ...viewImgWithObj, show: true });
   };
   const handleClickBack = () => {
+    setShowNotification(false)
     if (cantScrollImgBack) {
       return;
     }
@@ -47,6 +51,11 @@ const ImageProfile = ({ image, idx, handleDeleteByIdx, array }: Props) => {
     }
   }, [array[idxToChangeImg]]);
 
+  const handleActionToDelete = () => {
+    handleDeleteByIdx(idx);
+    setViewImgWithObj({ ...viewImgWithObj, show: false });
+  };
+
   if (viewImgWithObj?.show) {
     return (
       <div>
@@ -55,18 +64,12 @@ const ImageProfile = ({ image, idx, handleDeleteByIdx, array }: Props) => {
           <XCircleIcon
             className="size-7 absolute right-2 top-2 text-myColorBlack-500 dark:text-myColorWhite-500 cursor-pointer"
             onClick={() => {
+              setShowNotification(false)
               setViewImgWithObj({ ...viewImgWithObj, show: false });
               setIdxToChangeImg(0);
             }}
           />
-          <TrashIcon
-            className="size-7 right-2 bottom-2 absolute text-myColorRed-500"
-            onClick={() => {
-              handleDeleteByIdx(idx);
-              setViewImgWithObj({ ...viewImgWithObj, show: false });
-            }}
-          />
-
+          <TrashIcon className="size-7 right-2 bottom-2 absolute text-myColorRed-500 cursor-pointer" onClick={() => setShowNotification(true)} />
           <div className="absolute text-myColorBlack-500 bottom-0 w-[100px] bg-gray-50 flex justify-center left-[50%] ml-[-50px]">
             <div className="text-myColorBlack-500 cursor-pointer absolute left-0" onClick={handleClickBack}>
               <ArrowLeftEndOnRectangleIcon className="size-6" />
@@ -76,6 +79,7 @@ const ImageProfile = ({ image, idx, handleDeleteByIdx, array }: Props) => {
               <ArrowRightEndOnRectangleIcon className="size-6" />
             </div>
           </div>
+          {showNotification ? <Notification setShowNotification={setShowNotification} handleActionToDelete={handleActionToDelete} /> : ""}
         </div>
       </div>
     );

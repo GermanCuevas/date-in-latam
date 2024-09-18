@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   darkMode: "class",
-  content: ["./src/pages/**/*.{js,ts,jsx,tsx,mdx}", "./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}","./src/commons/**/*.{js,ts,jsx,tsx,mdx}"],
+  content: ["./src/pages/**/*.{js,ts,jsx,tsx,mdx}", "./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}", "./src/commons/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
@@ -68,11 +68,15 @@ const config: Config = {
         },
         myColorWhite: {
           500: "#e6e6e6",
-          600: "#F0F0F0"
+          600: "#F0F0F0",
+        },
+        myTextAreaColor: {
+          500: "#d1d1e0",
+          600: "#47476b", // dark
         },
         myColorBlack: {
           500: "#333333", //generalmente para color de textos
-          600: "#020c23" // para background
+          600: "#020c23", // para background
         },
         myColorTransparent: {
           500: "rgba(222, 199, 252, 0.25)",
@@ -80,7 +84,7 @@ const config: Config = {
         },
         myPlaceholder: {
           500: "#D4C4C4",
-          600: "#b49797" // un poco mas oscuro
+          600: "#b49797", // un poco mas oscuro
         },
         myColorRed: {
           500: "#E53935",
@@ -96,9 +100,9 @@ const config: Config = {
       boxShadow: {
         custom: "0px 4px 10px rgba(0, 0, 0, 0.5)",
       },
-      //screens 
+      //screens
       screens: {
-        'h-sm': { 'raw': '(max-height: 600px)' }, // Define el breakpoint para pantallas de menos de 700px de altura
+        "h-sm": { raw: "(max-height: 600px)" }, // Define el breakpoint para pantallas de menos de 700px de altura
       },
     },
   },

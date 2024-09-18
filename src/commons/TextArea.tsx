@@ -91,7 +91,7 @@ const TextArea = ({ titleTextArea, maxLength, name, setDataFromBack, dataFromBac
       <textarea
         id={name}
         ref={textAreaRef}
-        className="resize-none rounded text-myColorBlack-500 dark:text-myColorWhite-500 overflow-hidden bg-secondary-200 disabled:bg-[#d1d1e0] dark:disabled:bg-[#47476b]"
+        className="resize-none rounded text-myColorBlack-500 dark:text-myColorWhite-500 overflow-hidden bg-secondary-200 disabled:bg-myTextAreaColor-500 dark:disabled:bg-myTextAreaColor-600"
         value={dataChanged[name]}
         onChange={handleChange}
         maxLength={maxLength}
