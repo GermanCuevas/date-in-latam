@@ -54,7 +54,7 @@ const MultipleInputs = ({ dataArray, setDataForm, dataForm, dataLength, errorObj
             }}
           >
             {dataArray.map((obj) => {
-              return <InputForm key={obj.name} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={"w-full"} errorObject={errorObject} options={obj.options} fontSizeInput={"normal"} />;
+              return <InputForm key={obj.name} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={"w-full"} errorObject={errorObject} options={obj.options} fontSizeInput={"normal"} colorFont="normal" />;
             })}
           </div>
         </div>
@@ -66,7 +66,7 @@ const MultipleInputs = ({ dataArray, setDataForm, dataForm, dataLength, errorObj
           }}
         >
           {dataArray.map((obj) => {
-            return <InputForm key={obj.name} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={"w-full"} errorObject={errorObject} options={obj.options} fontSizeInput={"normal"}/>;
+            return <InputForm key={obj.name} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={"w-full"} errorObject={errorObject} options={obj.options} fontSizeInput={"normal"} colorFont="normal" />;
           })}
         </div>
       )}
