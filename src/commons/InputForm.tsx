@@ -25,11 +25,17 @@ interface InputProps {
   errorObject?: ErrorFieldsForm;
   fontSizeInput: "normal" | "large";
   handleTitleChange?: () => void;
+  colorFont: "normal" | "changeMode";
 }
 
-const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, name, errorObject, options, titleSelect, fontSizeInput }) => {
+const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, name, errorObject, options, titleSelect, fontSizeInput, colorFont }) => {
   const [suggestions, setSuggestions] = useState([]);
   const containerRef = useRef(null); // Referencia al contenedor
+
+  const colorFontSwitch = {
+    normal: "text-myPlaceholder-500",
+    changeMode: "text-myColorBlack-500 dark:text-myColorWhite-500",
+  };
 
   useEffect(() => {
     const validateDate = async () => {
@@ -117,13 +123,21 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
     setSuggestions([]);
   };
 
-  
   if (type === "select" && dataForm[name]?.value && typeof dataForm[name]?.value === "object" && typeof dataForm[name]?.value !== "string") {
     const inputValueToSelect: inputSelect = dataForm[name]?.value as inputSelect;
     return (
-      <div className="flex flex-col gap-y-2 text-myPlaceholder-500 text-sm sm:text-base">
-        {titleSelect}
+      <div className={`flex flex-col gap-y-2 ${colorFontSwitch[colorFont]} text-sm sm:text-base`}>
+        <div className="flex justify-between ">
+          <span>{titleSelect}</span>
+        </div>
         <Select options={options} placeholder={placeholder} value={inputValueToSelect} className={`text-myColorBlack-500 `} styles={customStyles} onChange={handleChangeSelectComponent} />
+        {inputValueToSelect.value === "No mostrar" || inputValueToSelect.value === "" ? (
+          <div className="flex gap-x-1">
+            <p className="text-xs text-soft-700 dark:text-primary-50"> (*) Este dato no se mostrara en tu perfil</p>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     );
   } else if (errorObject) {

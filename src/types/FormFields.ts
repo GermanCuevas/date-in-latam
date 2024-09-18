@@ -29,6 +29,13 @@ interface FormFields {
   password?: InputField;
   repeatPassword?: InputField;
   titleProfile?:InputField;
+  iHaveChildren?:InputFieldWithSelect;
+  wantChildren?:InputFieldWithSelect;
+  smoker?:InputFieldWithSelect;
+  drinker?:InputFieldWithSelect;
+  relationshipStatus?:InputFieldWithSelect;
+  education?:InputFieldWithSelect;
+  willingToRelocate?:InputFieldWithSelect;
 }
 
 export default FormFields;

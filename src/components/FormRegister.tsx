@@ -39,7 +39,6 @@ const Form = () => {
 
   const [dataInputs] = useState(dataToInputs);
 
-
   const [innerWidth, setInnerWidth] = useState<number | null>(null);
 
   useEffect(() => {
@@ -64,7 +63,7 @@ const Form = () => {
 
   const mapingData = () => {
     const dataMap = dataInputs.map((obj, idx) => {
-      return <React.Fragment key={`${idx}-map-inputs`}>{Array.isArray(obj) ? renderArray(obj) : <InputForm fontSizeInput={"normal"} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={widthBox} errorObject={errorObject} options={obj.options} titleSelect={obj?.titleBox} />}</React.Fragment>;
+      return <React.Fragment key={`${idx}-map-inputs`}>{Array.isArray(obj) ? renderArray(obj) : <InputForm fontSizeInput={"normal"} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={widthBox} errorObject={errorObject} options={obj.options} titleSelect={obj?.titleBox} colorFont="normal" />}</React.Fragment>;
     });
     const middleIndex = Math.ceil(dataMap.length / 2); // Calcula la mitad del array
     const firstHalf = dataMap.slice(0, middleIndex);

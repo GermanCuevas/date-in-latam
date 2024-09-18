@@ -8,13 +8,13 @@ interface ButtonProps {
   handleFunction: (to: string) => void;
   to: string;
   variant: "primary" | "secondary";
-  fontSize: "normal" | "large" ;
+  fontSize: "normal" | "large";
   Icon?: React.ComponentType<{ className?: string }> | null;
   widthButton?: boolean;
+  onWith40px?: boolean;
 }
 
-const Button: FC<ButtonProps> = ({ text, type, handleFunction, to, variant, fontSize, Icon, widthButton }) => {
-
+const Button: FC<ButtonProps> = ({ text, type, handleFunction, to, variant, fontSize, Icon, widthButton, onWith40px }) => {
   const variantSwitch = {
     primary: `bg-vibrant-500 hover:bg-vibrant-600`,
     secondary: `bg-myColorTransparent-500 hover:bg-vibrant-300`,
@@ -30,7 +30,7 @@ const Button: FC<ButtonProps> = ({ text, type, handleFunction, to, variant, font
   return (
     <button
       type={type}
-      className={`relative flex  ${variantSwitch[variant]} ${fontSizeSwitch[fontSize]} font-bold shadow-xl items-center border-myColorBlack-500 px-[10px] sm:px-[20px] py-[8px] gap-x-1 rounded-md  text-myColorBlack-500 dark:text-myColorWhite-500 justify-center ${widthButton ? "w-full" : ""}`}
+      className={`relative flex  ${variantSwitch[variant]} ${fontSizeSwitch[fontSize]} font-bold shadow-xl items-center border-myColorBlack-500 px-[10px] sm:px-[20px] py-[8px] gap-x-1 rounded-md  text-myColorBlack-500 dark:text-myColorWhite-500 justify-center ${widthButton ? "w-[full]" : ""}${onWith40px ? "w-[40px]" : ""} `}
       onClick={(e) => {
         if (type !== "submit") {
           e.preventDefault();

@@ -16,10 +16,9 @@ interface InputField {
   options?: OptionsOrGroups<OptionType, any>; // Opcional
 }
 
-
-type DataToInputs = (InputField | InputField[] )[];
-export type {InputField}
-export type {DataToInputs};
+type DataToInputs = (InputField | InputField[])[];
+export type { InputField };
+export type { DataToInputs };
 
 const generateDaysOptions = (start = 1, end = 31) => {
   const options = [];
@@ -148,4 +147,93 @@ const dataInputsLogin: InputField[] = [
   },
 ];
 
-export {dataToInputs , dataInputsLogin};
+const dataToPreferences: DataToInputs = [
+  {
+    type: "select",
+    placeholder: "Tengo hijos",
+    name: "iHaveChildren",
+    titleBox: "Tengo hijos",
+    options: [
+      { value: "No mostrar", label: "No mostra este dato" },
+      { value: "Sí ( vivo con )", label: "Sí ( vivo con )" },
+      { value: "Sí ( No vivo con )", label: "Sí ( no vivo con )" },
+      { value: "No", label: "No" },
+    ],
+  },
+  {
+    type: "select",
+    placeholder: "Quiero tener hijos",
+    name: "wantChildren",
+    titleBox: "Quiero tener hijos",
+    options: [
+      { value: "No mostrar", label: "No mostra este dato" },
+      { value: "Sí", label: "Sí" },
+      { value: "No", label: "No" },
+      { value: "No estoy seguro", label: "No estoy seguro" },
+    ],
+  },
+  {
+    type: "select",
+    placeholder: "Fumo",
+    name: "smoker",
+    titleBox: "Fumo",
+    options: [
+      { value: "No mostrar", label: "No mostra este dato" },
+      { value: "Sí", label: "Sí" },
+      { value: "No", label: "No" },
+    ],
+  },
+  {
+    type: "select",
+    placeholder: "Bebo",
+    name: "drinker",
+    titleBox: "Bebo",
+    options: [
+      { value: "No mostrar", label: "No mostra este dato" },
+      { value: "Ocasionalmente", label: "Ocasionalmente" },
+      { value: "Frecuentemente", label: "Frecuentemente" },
+      { value: "Socialmente", label: "Socialmente" },
+      { value: "No", label: "No" },
+    ],
+  },
+  {
+    type: "select",
+    placeholder: "Estado civil",
+    name: "relationshipStatus",
+    titleBox: "Estado civil",
+    options: [
+      { value: "No mostrar", label: "No mostra este dato" },
+      { value: "Soltero", label: "Soltero" },
+      { value: "Casado", label: "Casado" },
+      { value: "Divorciado/a", label: "Divorciado/a" },
+      { value: "Viudo/a", label: "Viudo/a" },
+      { value: "Unión libre", label: "Unión libre" },
+    ],
+  },
+  {
+    type: "select",
+    placeholder: "Educacion",
+    name: "education",
+    titleBox: "Educacion",
+    options: [
+      { value: "No mostrar", label: "No mostra este dato" },
+      { value: "Primaria", label: "Primaria" },
+      { value: "Secundaria", label: "Secundaria" },
+      { value: "Universitario", label: "Universitario" },
+    ],
+  },
+  {
+    type: "select",
+    placeholder: "Dispuesto a reubicarme",
+    name: "willingToRelocate",
+    titleBox: "Dispuesto a reubicarme",
+    options: [
+      { value: "No mostrar", label: "No mostra este dato" },
+      { value: "Sí", label: "Sí" },
+      { value: "No", label: "No" },
+      { value: "Es una posiblidad", label: "Es una posiblidad" },
+    ],
+  },
+];
+
+export { dataToInputs, dataInputsLogin, dataToPreferences };

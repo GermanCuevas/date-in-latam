@@ -30,7 +30,7 @@ const FloatBtn = () => {
   if (innerWidth)
     return (
       <button
-        onClick={() => {
+        onClick={() => { 
           document.documentElement.classList.toggle("dark");
           setDarkModeOn(!darkModeOn);
         }}

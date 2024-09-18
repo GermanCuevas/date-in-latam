@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useEffect, ChangeEvent, useState } from "react";
 import TextArea from "@/commons/TextArea";
 import ImageProfile from "@/commons/ImageProfile";
+import FormSetPreferences from "@/components/FormSetPreferences";
 
 interface interfaceState {
   title: string;
@@ -54,12 +55,12 @@ const MyProfile = () => {
     }
   };
 
-  useEffect(() => {
+  /*   useEffect(() => {
     return () => {
       // Limpia las URLs temporales
       tempUrls.forEach((url) => URL.revokeObjectURL(url));
     };
-  }, [tempUrls]);
+  }, [tempUrls]); */
 
   const handleDeleteByIdx = async (idx: number) => {
     const updatedArray = arrayUrlImages.filter((_, index) => index !== idx);
@@ -101,10 +102,13 @@ const MyProfile = () => {
             </div>
             <span className="text-myColorBlack-500 dark:text-myColorWhite-500">{arrayUrlImages.length}/5</span>
           </div>
-          {arrayUrlImages.map((image, idx) => {
-            return <ImageProfile key={`${idx}-${image}`} image={image} idx={idx} handleDeleteByIdx={handleDeleteByIdx} />;
+          {arrayUrlImages.map((image, idx, array) => {
+            return <ImageProfile key={`${idx}-${image}`} image={image} idx={idx} handleDeleteByIdx={handleDeleteByIdx} array={array} />;
           })}
         </div>
+      </section>
+      <section className="flex justify-center">
+        <FormSetPreferences />
       </section>
     </div>
   );
