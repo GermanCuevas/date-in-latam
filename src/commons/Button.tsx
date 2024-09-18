@@ -5,7 +5,7 @@ import React from "react";
 interface ButtonProps {
   text: string;
   type: "button" | "submit" | "reset";
-  handleFunction: (to: string) => void;
+  handleFunction: (to: string ) => void;
   to: string;
   variant: "primary" | "secondary";
   fontSize: "normal" | "large";

@@ -14,10 +14,10 @@ interface Props {
 const ImageProfile = ({ image, idx, handleDeleteByIdx, array }: Props) => {
   const [viewImgWithObj, setViewImgWithObj] = useState({ show: false });
   const [idxToChangeImg, setIdxToChangeImg] = useState(idx);
-  const [showNotification, setShowNotification] = useState(false);
+  const [showNotification, setShowNotification] = useState<boolean>(false);
 
   const handleClickNext = () => {
-    setShowNotification(false)
+    setShowNotification(false);
     if (cantScrollImgNext) {
       return;
     }
@@ -26,7 +26,7 @@ const ImageProfile = ({ image, idx, handleDeleteByIdx, array }: Props) => {
     setViewImgWithObj({ ...viewImgWithObj, show: true });
   };
   const handleClickBack = () => {
-    setShowNotification(false)
+    setShowNotification(false);
     if (cantScrollImgBack) {
       return;
     }
@@ -64,7 +64,7 @@ const ImageProfile = ({ image, idx, handleDeleteByIdx, array }: Props) => {
           <XCircleIcon
             className="size-7 absolute right-2 top-2 text-myColorBlack-500 dark:text-myColorWhite-500 cursor-pointer"
             onClick={() => {
-              setShowNotification(false)
+              setShowNotification(false);
               setViewImgWithObj({ ...viewImgWithObj, show: false });
               setIdxToChangeImg(0);
             }}
