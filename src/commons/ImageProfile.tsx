@@ -52,6 +52,8 @@ const ImageProfile = ({ image, idx, handleDeleteByIdx, array }: Props) => {
   }, [array[idxToChangeImg]]);
 
   const handleActionToDelete = () => {
+    console.log("?");
+    
     handleDeleteByIdx(idx);
     setViewImgWithObj({ ...viewImgWithObj, show: false });
   };

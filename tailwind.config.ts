@@ -5,6 +5,46 @@ const config: Config = {
   content: ["./src/pages/**/*.{js,ts,jsx,tsx,mdx}", "./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}", "./src/commons/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
+      keyframes: {
+        bubble: {
+          "0%": { transform: "scale(0)", opacity: "0" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
+        fadeSlideUp: {
+          "0%": { transform: "translateY(100%)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        fadeSlideDown: {
+          "0%": { transform: "translateY(0)", opacity: "1" },
+          "100%": { transform: "translateY(100%)", opacity: "0" },
+        },        
+        rotateExpand: {
+          "0%": { transform: "scale(0.5) rotate(-10deg)", opacity: "0" },
+          "100%": { transform: "scale(1) rotate(0deg)", opacity: "1" },
+        },
+        growCorner: {
+          "0%": { transform: "scale(0)", transformOrigin: "top left", opacity: "0" },
+          "100%": { transform: "scale(1)", transformOrigin: "top left", opacity: "1" },
+        },
+        zoomBounce: {
+          "0%": { transform: "scale(0)", opacity: "0" },
+          "80%": { transform: "scale(1.1)", opacity: "1" },
+          "100%": { transform: "scale(1)" },
+        },
+        blurExpand: {
+          "0%": { transform: "scale(0.5)", filter: "blur(10px)", opacity: "0" },
+          "100%": { transform: "scale(1)", filter: "blur(0)", opacity: "1" },
+        },
+      },
+      animation: {
+        bubble: "bubble 0.5s ease-out forwards",
+        fadeSlideUp: "fadeSlideUp .8s ease-out forwards",
+        rotateExpand: "rotateExpand .8s ease-out forwards",
+        fadeSlideDown: "fadeSlideDown 0.6s ease-out forwards",
+        growCorner: "growCorner 0.5s ease-out forwards",
+        zoomBounce: "zoomBounce 0.8s ease-out forwards",
+        blurExpand: "blurExpand 0.6s ease-out forwards",
+      },
       colors: {
         primary: {
           50: "#e3ebfe",
@@ -95,6 +135,8 @@ const config: Config = {
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         gradientLight: "linear-gradient(90deg, #578AF7 16.64%, #DC55FA 100%)",
         gradientDark: "linear-gradient(90deg, #2D4984 16.64%, #AD3BC6 100%)",
+        gradientMenu: "linear-gradient(90deg, rgba(95, 87, 247, 0.97) 16.64%, rgba(156, 87, 247, 0.97) 100%)",
+        //gradientMenuDark: "linear-gradient(90deg, rgba(122, 5, 79, 0.5) 16.64%, rgba(97, 10, 213, 0.8) 100%)"
       },
       //al ser otra propiedad, boxShadow va fuera de 'colors' =>
       boxShadow: {

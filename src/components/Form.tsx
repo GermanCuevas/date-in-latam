@@ -34,12 +34,10 @@ const Form = () => {
     // console.log("dataForm en componente Form=>",dataForm);
     //router.push("/");
   };
-  //const InputForm = ({ type, placeholder, setDataForm, dataForm, name, width, errorObject, options , titleSelect}) => {
-  //const Button = ({ text, type, handleFunction, to, variant, fontSize, Icon , widthButton }) =>
-  const fontWeight = "font-semibold";
+
   return (
     <>
-      <form className={`flex flex-col p-5 shadow-xl rounded-md gap-y-16 bg-myColorTransparent-500 ${fontWeight} w-[290px] sm:w-[340px]`}>
+      <form className={`flex flex-col p-5 shadow-xl rounded-md gap-y-16 bg-myColorTransparent-500 font-semibold w-[290px] sm:w-[340px]`}>
         {dataInputsLogin.map(({ type, placeholder, name }: InputField) => {
           return <InputForm key={name} type={type} placeholder={placeholder} name={name} setDataForm={setDataForm} dataForm={dataForm} width={"w-72"} errorObject={errorObject} titleSelect={""} fontSizeInput={"normal"} colorFont="normal" />;
         })}

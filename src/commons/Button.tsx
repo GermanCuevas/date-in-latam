@@ -5,16 +5,17 @@ import React from "react";
 interface ButtonProps {
   text: string;
   type: "button" | "submit" | "reset";
-  handleFunction: (to: string ) => void;
+  handleFunction?: (to: string) => void;
   to: string;
   variant: "primary" | "secondary";
   fontSize: "normal" | "large";
   Icon?: React.ComponentType<{ className?: string }> | null;
   widthButton?: boolean;
   onWith40px?: boolean;
+  handleFunctionWithoutParam?: () => void;
 }
 
-const Button: FC<ButtonProps> = ({ text, type, handleFunction, to, variant, fontSize, Icon, widthButton, onWith40px }) => {
+const Button: FC<ButtonProps> = ({ text, type, handleFunction, handleFunctionWithoutParam, to, variant, fontSize, Icon, widthButton, onWith40px }) => {
   const variantSwitch = {
     primary: `bg-vibrant-500 hover:bg-vibrant-600`,
     secondary: `bg-myColorTransparent-500 hover:bg-vibrant-300`,
@@ -42,6 +43,9 @@ const Button: FC<ButtonProps> = ({ text, type, handleFunction, to, variant, font
           if (handleFunction && typeof handleFunction === "function") {
             handleFunction(to);
           }
+        }
+        if (type === "button" && handleFunctionWithoutParam) {
+          handleFunctionWithoutParam();
         }
       }}
     >
