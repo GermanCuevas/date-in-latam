@@ -2,8 +2,8 @@ import Image from "next/image";
 import { HomeIcon, HeartIcon, EyeIcon, ChatBubbleBottomCenterTextIcon, PlusCircleIcon, Bars4Icon, UserGroupIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
-const Header = () => {
-  //const headeMobileFirst = ""
+const Header = ({ menu, setMenu }) => {
+
   return (
     <header className={`h-[55px] md:h-[65px] fixed bottom-0 md:top-0 flex bg-gradientLight dark:bg-gradientDark justify-center z-10 w-full`}>
       <div className="flex w-[90%] items-center">
@@ -56,15 +56,21 @@ const Header = () => {
             <li className="flex items-center">
               <button
                 onClick={() => {
-                  document.documentElement.classList.toggle("dark");
+                  console.log("Colocar menu");
+                  setMenu(!menu);
                 }}
                 className="bg-vibrant-500 items-center border border-myColorBlack-500 px-[20px] py-[8px] gap-x-1 rounded-md hidden md:flex"
               >
                 <span>Más</span>
                 <PlusCircleIcon className="size-7" />
               </button>
-
-              <button className="items-center flex md:hidden">
+              <button
+                className="items-center flex md:hidden"
+                onClick={() => {
+                  console.log("Colocar menu");
+                  setMenu(true);
+                }}
+              >
                 <div className="flex gap-x-1 ">
                   <Bars4Icon className="size-9" />
                 </div>

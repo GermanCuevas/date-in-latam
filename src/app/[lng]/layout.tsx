@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import FloatBtn from "../../components/FloatBtn";
 import Version from "@/components/Versions";
-import {dir} from 'i18next'
-import {languages} from "../i18n/settings" 
+import { dir } from "i18next";
+import { languages } from "../i18n/settings";
 import SelectLanguaje from "@/components/SelectLanguaje";
 import { Toaster } from "sonner";
 //import Image from "next/image";
@@ -35,11 +35,13 @@ interface RootLayoutProps {
   children: React.ReactNode;
   params: Params;
 }
+//"mt-[30px] sm:mt-[65px]"
+
+//pt-[30px] sm:pt-[65px]
 export default function RootLayout({ children, params: { lng } }: RootLayoutProps) {
-  
   return (
     <html lang={lng} dir={dir(lng)}>
-      <body className={`${lato.className} bg-myColorWhite-500 dark:bg-myColorBlack-600  `}>
+      <body className={`${lato.className} bg-myColorWhite-500 dark:bg-myColorBlack-600 `}>
         <Toaster richColors />
         {children}
         <FloatBtn />

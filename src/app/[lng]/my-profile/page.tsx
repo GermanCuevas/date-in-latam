@@ -68,9 +68,9 @@ const MyProfile = () => {
     setArrayUrlImages(updatedArray);
     setTempUrls(updatedTempUrls);
   };
-
+//mt-[30px] sm:mt-[65px]
   return (
-    <div className="mt-[30px] mb-[130px] sm:mt-[65px] flex flex-col gap-5 relative">
+    <div className=" mb-[130px] flex flex-col gap-5 relative">
       <section className="flex justify-center ">
         <div className="rounded-full border-8 border-myColorBlack-500 w-[250px] h-[250px] overflow-hidden ">
           <Image src={"/assets/catProfileDefault.jpeg"} width={250} height={250} alt="Profile avatar default" />
