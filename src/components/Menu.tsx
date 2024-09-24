@@ -1,10 +1,15 @@
 import { XCircleIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { HomeIcon, HeartIcon, EyeIcon, ChatBubbleBottomCenterTextIcon, PlusCircleIcon, Bars4Icon, UserGroupIcon, UserIcon , PencilIcon} from "@heroicons/react/24/solid";
+import { Dispatch, useState } from "react";
+import { UserIcon , PencilIcon} from "@heroicons/react/24/solid";
+import { SetStateAction, ChangeEvent } from "react";
 
-const Menu = ({ menu, setMenu }) => {
+interface Props{
+  setMenu: Dispatch<SetStateAction<boolean>>;
+}
+
+const Menu = ({ setMenu }: Props) => {
   const [isVisible, setIsVisible] = useState(true);
   const navigation = useRouter();
 
@@ -43,7 +48,7 @@ const Menu = ({ menu, setMenu }) => {
                   navigation.push("/me");
                 }, 500);
               }}
-              className="cursor-pointer flex items-center gap-x-2"
+              className="cursor-pointer flex items-center gap-x-2 hover:text-tertiary-700"
             >
               Mi vista
               <UserIcon className="size-5" />
@@ -54,10 +59,10 @@ const Menu = ({ menu, setMenu }) => {
               onClick={() => {
                 closeMenu();
                 setTimeout(() => {
-                  navigation.push("/my-profile");
+                  navigation.push("/edit-my-profile");
                 }, 500);
               }}
-              className="cursor-pointer flex items-center gap-x-2"
+              className="cursor-pointer flex items-center gap-x-2 hover:text-tertiary-700"
             >
               
               Editar mi perfil

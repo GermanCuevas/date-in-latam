@@ -21,7 +21,7 @@ const Landing = () => {
     setImageNumber(randomNumber);
   }, []);
   return (
-    <div className="flex justify-evenly w-[90%] h-[85%] md:h-[65%]">
+    <div className="flex justify-evenly w-[90%] h-[85%] md:h-[65%] ">
       <div className="flex flex-col items-center justify-evenly md:justify-between">
         <div className="text-myColorBlack-500 dark:text-myColorWhite-500 md:max-w-[880px]">
           <h1 className="text-5xl font-bold mb-6 text-center md:text-left md:text-6xl">¡Te estábamos esperando!</h1>
@@ -33,7 +33,7 @@ const Landing = () => {
           <Image src={`/assets/landing0${imageNumber}.png`} width={150} height={150} alt={`Logo en landing ${imageNumber}`} className="md:hidden" />
         </div>
         <div className="flex md:self-start md:justify-self-end">
-          <Button to={"/my-profile"} type={"button"} text={"¡Configuremos tu perfil!"} variant={"primary"} fontSize={"large"} Icon={ArrowRightIcon} handleFunction={handleClick} />
+          <Button to={"/edit-my-profile"} type={"button"} text={"¡Configuremos tu perfil!"} variant={"primary"} fontSize={"large"} Icon={ArrowRightIcon} handleFunction={handleClick} />
         </div>
       </div>
       <div className="hidden md:flex md:w-[400px] md:items-end">

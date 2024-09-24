@@ -38,8 +38,8 @@ const config: Config = {
       },
       animation: {
         bubble: "bubble 0.5s ease-out forwards",
-        fadeSlideUp: "fadeSlideUp .8s ease-out forwards",
-        rotateExpand: "rotateExpand .8s ease-out forwards",
+        fadeSlideUp: "fadeSlideUp .4s ease-out forwards",
+        rotateExpand: "rotateExpand .4s ease-out forwards",
         fadeSlideDown: "fadeSlideDown 0.6s ease-out forwards",
         growCorner: "growCorner 0.5s ease-out forwards",
         zoomBounce: "zoomBounce 0.8s ease-out forwards",
@@ -129,6 +129,9 @@ const config: Config = {
         myColorRed: {
           500: "#E53935",
         },
+        myColorGreen:{
+          500:"#00994d",
+        }
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

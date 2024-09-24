@@ -98,4 +98,6 @@ body {
     1px -1px 0 #333333;
 }
 
-
+.item-to-hover:hover .item-to-show{
+  display: block;
+}

@@ -13,7 +13,7 @@ export default function Template({
 }>) {
   const pathname = usePathname();
   const [lng, setLanguage] = useState<string>("");
-  const [menu, setMenu] = useState(false);
+  const [menu, setMenu] = useState<boolean>(false);
   
   useEffect(() => {
     const lang = document.documentElement.lang;
@@ -24,7 +24,7 @@ export default function Template({
     <>
       {pathname !== "/es" && pathname !== "/es/login" && pathname !== "/es/register" && pathname !== "/en" && pathname !== "/en/login" && pathname !== "/en/register" && <Header menu={menu} setMenu={setMenu} />}
       {(pathname === "/es" || pathname === "/es/login" || pathname === "/es/register" || pathname === "/en" || pathname === "/en/login" || pathname === "/en/register") && <SelectLanguaje lng={lng} />}
-      {menu && <Menu menu={menu} setMenu={setMenu} />}
+      {menu && <Menu setMenu={setMenu} />}
       {children}
     </>
   );
