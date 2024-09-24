@@ -1,11 +1,3 @@
-// iHaveChildren: { value: { value: "", label: "seleccionar..." }, red: false, label: "iHaveChildren" },
-// wantChildren: { value: { value: "", label: "seleccionar..." }, red: false, label: "wantChildren" },
-// smoker: { value: { value: "", label: "seleccionar..." }, red: false, label: "smoker" },
-// drinker: { value: { value: "", label: "seleccionar..." }, red: false, label: "drinker" },
-// relationshipStatus: { value: { value: "", label: "seleccionar..." }, red: false, label: "relationshipStatus" },
-// education: { value: { value: "", label: "seleccionar..." }, red: false, label: "education" },
-// willingToRelocate: { value: { value: "", label: "seleccionar..." }, red: false, label: "willingToRelocate" },
-
 import Image from "next/image";
 
 const fakeData = {
@@ -36,12 +28,10 @@ Made in Argentina 😎`,
 };
 
 const Me = () => {
-  console.log(fakeData.aboutMe);
-  console.log("=============>");
   //mt-[30px] sm:mt-[65px]
-
+  //pt-[30px] md:pt-[65px]
   return (
-    <div className="mb-[130px] flex flex-col gap-5 relative">
+    <div className="mb-[130px] flex flex-col gap-5 relative pt-[30px] md:pt-[65px]">
       <section className="flex justify-center ">
         <div className="rounded-full border-8 border-myColorBlack-500 w-[250px] h-[250px] overflow-hidden ">
           <Image src={"/assets/catProfileDefault.jpeg"} width={250} height={250} alt="Profile avatar default" />
