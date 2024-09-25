@@ -1,9 +1,14 @@
 import Image from "next/image";
 import { HomeIcon, HeartIcon, EyeIcon, ChatBubbleBottomCenterTextIcon, PlusCircleIcon, Bars4Icon, UserGroupIcon, UserIcon, PencilIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { SetStateAction, ChangeEvent } from "react";
+import { SetStateAction, Dispatch } from "react";
 
-const Header = ({ menu, setMenu }) => {
+interface Props {
+  menu: boolean;
+  setMenu: Dispatch<SetStateAction<boolean>>;
+}
+
+const Header = ({ menu, setMenu }: Props) => {
   return (
     <header className={`h-[55px] md:h-[65px] fixed bottom-0 md:top-0 flex bg-gradientLight dark:bg-gradientDark justify-center z-10 w-full`}>
       <div className="flex w-[90%] items-center">
