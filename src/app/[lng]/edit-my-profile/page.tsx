@@ -5,10 +5,14 @@ import TextArea from "@/commons/TextArea";
 import ImageProfile from "@/commons/ImageProfile";
 import FormSetPreferences from "@/components/FormSetPreferences";
 
-interface interfaceState {
-  title: string;
-  aboutMe: string;
-  aboutYou: string;
+interface interfaceStateMyProfile {
+  ocupation?: string;
+  heigthNumber?: string;
+  heightType?: string;
+  religion?: string;
+  title?: string;
+  aboutMe?: string;
+  aboutYou?: string;
 }
 
 const fakeData = {
@@ -19,8 +23,8 @@ const fakeData = {
 
 const MyProfile = () => {
   //para el input text-5xl
-  const [dataFromBack, setDataFromBack] = useState<interfaceState>(fakeData);
-  const [dataChanged, setDataChanged] = useState<interfaceState>(fakeData);
+  const [dataFromBack, setDataFromBack] = useState<interfaceStateMyProfile>(fakeData);
+  const [dataChanged, setDataChanged] = useState<interfaceStateMyProfile>(fakeData);
   const [dataToSend, setDataToSend] = useState({
     title: "",
     aboutMe: "",
@@ -68,7 +72,7 @@ const MyProfile = () => {
     setArrayUrlImages(updatedArray);
     setTempUrls(updatedTempUrls);
   };
-//mt-[30px] sm:mt-[65px]
+  //mt-[30px] sm:mt-[65px]
   return (
     <div className="mb-[130px] flex flex-col gap-5 relative pt-[30px] md:pt-[65px]">
       <section className="flex justify-center ">

@@ -16,6 +16,25 @@ import { InputField } from "@/utils/dataToInputs";
 //Todos los campos del formulario deben declararse dentro del useState para poder ser usados en el formulario.
 //Luego deben colocarse los respectivos valores dentro de un array para poder mapear los Inputs, que son commons.
 
+const fakeData = {
+  ocupation: "Cientifico",
+  heigthNumber: "",
+  heightType: "",
+  religion: "cris",
+};
+
+interface interfaceStateFormSetPreferences {
+  ocupation?: string;
+  heigthNumber?: string;
+  heightType?: string;
+  religion?: string;
+  title?: string;
+  aboutMe?: string;
+  aboutYou?: string;
+}
+
+
+
 const FormSetPreferences = () => {
   const [errorObject, setErrorObject] = useState<ErrorFieldsForm>({});
   const [dataForm, setDataForm] = useState<FormFields>({
@@ -41,28 +60,22 @@ const FormSetPreferences = () => {
   };
   //const InputForm = ({ type, placeholder, setDataForm, dataForm, name, width, errorObject, options , titleSelect}) => {
   //const Button = ({ text, type, handleFunction, to, variant, fontSize, Icon , widthButton }) =>
-  const fakeData = {
-    title: "Cientifico",
-    aboutMe: "",
-    aboutYou: "",
-  };
-  interface interfaceState {
-    title: string;
-    aboutMe: string;
-    aboutYou: string;
-  }
-  const [dataFromBack, setDataFromBack] = useState<interfaceState>(fakeData);
-  const [dataChanged, setDataChanged] = useState<interfaceState>(fakeData);
+
+  const [dataFromBack, setDataFromBack] = useState<interfaceStateFormSetPreferences>(fakeData);
+  const [dataChanged, setDataChanged] = useState<interfaceStateFormSetPreferences>(fakeData);
   const fontWeight = "font-semibold";
+
+  console.log(dataFromBack);
+  console.log(dataChanged)
 
   return (
     <>
       <div className={`flex flex-col p-5 shadow-xl rounded-md gap-y-16 bg-myColorTransparent-500 ${fontWeight} w-[90%] mb-20 `}>
         <h3 className="text-myColorBlack-500 dark:text-myColorWhite-500 text-xl">Datos sobre mi</h3>
         <div className="w-[100%] flex flex-col gap-10">
-          <TextArea titleTextArea="Ocupación" maxLength={30} name="title" setDataFromBack={setDataFromBack} dataFromBack={dataFromBack} dataChanged={dataChanged} setDataChanged={setDataChanged} />
-          <TextArea titleTextArea="Altura" maxLength={10} name="aboutMe" setDataFromBack={setDataFromBack} dataFromBack={dataFromBack} dataChanged={dataChanged} setDataChanged={setDataChanged} />
-          <TextArea titleTextArea="Religión" maxLength={30} name="aboutYou" setDataFromBack={setDataFromBack} dataFromBack={dataFromBack} dataChanged={dataChanged} setDataChanged={setDataChanged} />
+          <TextArea titleTextArea="Ocupación" maxLength={30} name="ocupation" setDataFromBack={setDataFromBack} dataFromBack={dataFromBack} dataChanged={dataChanged} setDataChanged={setDataChanged} />
+          <TextArea titleTextArea="Altura" maxLength={5} name="heigthNumber" setDataFromBack={setDataFromBack} dataFromBack={dataFromBack} dataChanged={dataChanged} setDataChanged={setDataChanged} />
+          <TextArea titleTextArea="Religión" maxLength={30} name="religion" setDataFromBack={setDataFromBack} dataFromBack={dataFromBack} dataChanged={dataChanged} setDataChanged={setDataChanged} />
         </div>
         {dataToPreferences.map((obj) => {
           if (!Array.isArray(obj)) return <InputForm key={obj.name} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={"w-72"} errorObject={errorObject} fontSizeInput={"normal"} options={obj.options} titleSelect={obj.titleBox} colorFont="changeMode" />;
