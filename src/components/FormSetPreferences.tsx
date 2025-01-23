@@ -1,16 +1,13 @@
 "use client";
-import { useRouter } from "next/navigation.js";
-import Button from "@/commons/Button";
 import InputForm from "@/commons/InputForm";
 import { useState } from "react";
 import validateEmptyFields from "@/utils/validateEmptyFields";
 import validateFormatInputs from "@/utils/validateFormatInputs";
 import FormFields from "@/types/FormFields";
 import { dataToPreferences } from "@/utils/dataToInputs";
-/* import { InputField } from "@/utils/dataToInputs"; */
 import { ErrorFieldsForm } from "@/types/ErrorFields";
 import TextArea from "@/commons/TextArea";
-import { InputField } from "@/utils/dataToInputs";
+import {interfacePreferencesAndEditInfo} from "@/types/PreferencesAndEditInfo";
 
 //Formulario de login
 //Todos los campos del formulario deben declararse dentro del useState para poder ser usados en el formulario.
@@ -22,17 +19,6 @@ const fakeData = {
   heightType: "",
   religion: "cris",
 };
-
-interface interfaceStateFormSetPreferences {
-  ocupation?: string;
-  heigthNumber?: string;
-  heightType?: string;
-  religion?: string;
-  title?: string;
-  aboutMe?: string;
-  aboutYou?: string;
-}
-
 
 
 const FormSetPreferences = () => {
@@ -61,8 +47,8 @@ const FormSetPreferences = () => {
   //const InputForm = ({ type, placeholder, setDataForm, dataForm, name, width, errorObject, options , titleSelect}) => {
   //const Button = ({ text, type, handleFunction, to, variant, fontSize, Icon , widthButton }) =>
 
-  const [dataFromBack, setDataFromBack] = useState<interfaceStateFormSetPreferences>(fakeData);
-  const [dataChanged, setDataChanged] = useState<interfaceStateFormSetPreferences>(fakeData);
+  const [dataFromBack, setDataFromBack] = useState<interfacePreferencesAndEditInfo>(fakeData);
+  const [dataChanged, setDataChanged] = useState<interfacePreferencesAndEditInfo>(fakeData);
   const fontWeight = "font-semibold";
 
   console.log(dataFromBack);

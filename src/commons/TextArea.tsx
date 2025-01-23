@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, Dispatch, SetStateAction } from "react";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import Button from "./Button";
 import CmOrFt from "./CmOrFt";
-
+import {interfacePreferencesAndEditInfo} from "@/types/PreferencesAndEditInfo";
 
 interface Keys{
   heigthNumber: string;
@@ -13,26 +13,16 @@ interface Keys{
   aboutYou : string;
 }
 
-interface interfaceStateIcedEarth {
-  ocupation?: string;
-  heigthNumber?: string;
-  heightType?: string;
-  religion?: string;
-  title?: string;
-  aboutMe?: string;
-  aboutYou?: string;
-}
-
 type KeyState = keyof Keys;
 
 interface Props {
   titleTextArea: string;
   maxLength: number;
   name: KeyState;
-  setDataFromBack: Dispatch<SetStateAction<interfaceStateIcedEarth>>;
-  setDataChanged: Dispatch<SetStateAction<interfaceStateIcedEarth>>;
-  dataFromBack: interfaceStateIcedEarth;
-  dataChanged: interfaceStateIcedEarth;
+  setDataFromBack: Dispatch<SetStateAction<interfacePreferencesAndEditInfo>>;
+  setDataChanged: Dispatch<SetStateAction<interfacePreferencesAndEditInfo>>;
+  dataFromBack: interfacePreferencesAndEditInfo;
+  dataChanged: interfacePreferencesAndEditInfo;
 }
 
 const TextArea = ({ titleTextArea, maxLength, name, setDataFromBack, dataFromBack, dataChanged, setDataChanged }: Props) => {
