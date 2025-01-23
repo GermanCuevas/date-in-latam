@@ -13,6 +13,7 @@ interface inputSelect {
   label: string;
 }
 type FormFieldKeys = keyof FormFields;
+
 interface InputProps {
   type: "button" | "select" | "text" | "password" | "submit";
   placeholder?: string;
