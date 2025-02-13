@@ -5,6 +5,10 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import SelectLanguaje from "@/components/SelectLanguaje";
 import Menu from "@/components/Menu";
+import { auth } from "../../firebase/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
+console.log(auth)
 
 export default function Template({
   children,

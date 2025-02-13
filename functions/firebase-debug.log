@@ -1,0 +1,74 @@
+[debug] [2025-02-10T17:55:05.743Z] ----------------------------------------------------------------------
+[debug] [2025-02-10T17:55:05.744Z] Command:       /home/german/.nvm/versions/node/v20.14.0/bin/node /home/german/.nvm/versions/node/v20.14.0/bin/firebase serve --only functions
+[debug] [2025-02-10T17:55:05.745Z] CLI Version:   13.29.2
+[debug] [2025-02-10T17:55:05.745Z] Platform:      linux
+[debug] [2025-02-10T17:55:05.745Z] Node Version:  v20.14.0
+[debug] [2025-02-10T17:55:05.745Z] Time:          Mon Feb 10 2025 14:55:05 GMT-0300 (Argentina Standard Time)
+[debug] [2025-02-10T17:55:05.745Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-02-10T17:55:05.894Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-02-10T17:55:05.894Z] > authorizing via signed-in user (german.1990.cuevas@gmail.com)
+[debug] [2025-02-10T17:55:05.894Z] [iam] checking project date-in-latam for permissions ["firebase.projects.get"]
+[debug] [2025-02-10T17:55:05.895Z] Checked if tokens are valid: true, expires at: 1739213698029
+[debug] [2025-02-10T17:55:05.896Z] Checked if tokens are valid: true, expires at: 1739213698029
+[debug] [2025-02-10T17:55:05.896Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/date-in-latam:testIamPermissions [none]
+[debug] [2025-02-10T17:55:05.896Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/date-in-latam:testIamPermissions x-goog-quota-user=projects/date-in-latam
+[debug] [2025-02-10T17:55:05.896Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/date-in-latam:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-02-10T17:55:06.837Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/date-in-latam:testIamPermissions 200
+[debug] [2025-02-10T17:55:06.837Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/date-in-latam:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-02-10T17:55:06.837Z] Checked if tokens are valid: true, expires at: 1739213698029
+[debug] [2025-02-10T17:55:06.838Z] Checked if tokens are valid: true, expires at: 1739213698029
+[debug] [2025-02-10T17:55:06.838Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/date-in-latam [none]
+[debug] [2025-02-10T17:55:07.051Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/date-in-latam 200
+[debug] [2025-02-10T17:55:07.051Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/date-in-latam {"projectNumber":"231574351646","projectId":"date-in-latam","lifecycleState":"ACTIVE","name":"date-in-latam","labels":{"firebase":"enabled"},"createTime":"2024-09-06T02:52:57.285642Z"}
+[debug] [2025-02-10T17:55:07.053Z] defaultcredentials: writing to file /home/german/.config/firebase/german_1990.cuevas_gmail.com_application_default_credentials.json
+[debug] [2025-02-10T17:55:07.053Z] Setting GAC to /home/german/.config/firebase/german_1990.cuevas_gmail.com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /home/german/.config/firebase/german_1990.cuevas_gmail.com_application_default_credentials.json"}}
+[debug] [2025-02-10T17:55:07.054Z] Checked if tokens are valid: true, expires at: 1739213698029
+[debug] [2025-02-10T17:55:07.054Z] Checked if tokens are valid: true, expires at: 1739213698029
+[debug] [2025-02-10T17:55:07.054Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/date-in-latam/adminSdkConfig [none]
+[debug] [2025-02-10T17:55:07.521Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/date-in-latam/adminSdkConfig 200
+[debug] [2025-02-10T17:55:07.521Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/date-in-latam/adminSdkConfig {"projectId":"date-in-latam","storageBucket":"date-in-latam.firebasestorage.app"}
+[info] i  functions: Watching "/home/german/Archives/date-in-latam/functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/home/german/Archives/date-in-latam/functions\" for Cloud Functions..."}}
+[debug] [2025-02-10T17:55:07.532Z] Validating nodejs source
+[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[debug] [2025-02-10T17:55:08.753Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.0.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-02-10T17:55:08.753Z] Building nodejs source
+[debug] [2025-02-10T17:55:08.753Z] Failed to find version of module node: reached end of search path /home/german/Archives/date-in-latam/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "22" doesn't match your global version "20". Using node@20 from host. 
+[debug] [2025-02-10T17:55:08.755Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-02-10T17:55:08.757Z] Found firebase-functions binary at '/home/german/Archives/date-in-latam/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8093
+
+[debug] [2025-02-10T17:55:09.029Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"helloWorld"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[info] ✔  functions: Loaded functions definitions from source: helloWorld. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: helloWorld."}}
+[info] ✔  functions[us-central1-helloWorld]: http function initialized (http://localhost:5000/date-in-latam/us-central1/helloWorld). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:5000/date-in-latam/us-central1/helloWorld)."}}
