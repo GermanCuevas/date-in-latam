@@ -64,7 +64,7 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
 
   const handleChange = async (newValue: ChangeEvent<HTMLInputElement>) => {
     //if (name !== "titleProfile") {
-    console.log(newValue.target.value);
+    //console.log(newValue.target.value);
 
     if (newValue) {
       setDataForm((prevDataForm) => ({

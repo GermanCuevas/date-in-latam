@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/navigation.js";
 import Button from "@/commons/Button";
 import InputForm from "@/commons/InputForm";
 import { useState } from "react";
@@ -9,13 +8,17 @@ import FormFields from "@/types/FormFields";
 import { dataInputsLogin } from "@/utils/dataToInputs";
 import { InputField } from "@/utils/dataToInputs";
 import { ErrorFieldsForm } from "@/types/ErrorFields";
+import { useRouter } from "next/navigation";
+//firebase
+import { auth } from "../firebase/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 //Formulario de login
 //Todos los campos del formulario deben declararse dentro del useState para poder ser usados en el formulario.
 //Luego deben colocarse los respectivos valores dentro de un array para poder mapear los Inputs, que son commons.
 
 const Form = () => {
-  //const router = useRouter();
+  const router = useRouter();
   const [errorObject, setErrorObject] = useState<ErrorFieldsForm>({});
 
   const [dataForm, setDataForm] = useState<FormFields>({
@@ -29,9 +32,19 @@ const Form = () => {
       console.log("El formulario no se debe enviar, hay campos vacios");
       return;
     }
-    const objMessage = await validateFormatInputs({ dataForm, setErrorObject });
-    //setErrorObject(objMessage)
-    // console.log("dataForm en componente Form=>",dataForm);
+    await validateFormatInputs({ dataForm, setErrorObject });
+    console.log("dataForm =>", dataForm);
+    if (dataForm.email && dataForm.password) {
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, dataForm.email?.value, dataForm.password?.value);
+        console.log("Usuario autenticado:", userCredential.user);
+        router.push("/discover");
+        return userCredential.user;
+      } catch (error: any) {
+        console.error("Error al iniciar sesión:", error.message);
+        return null;
+      }
+    }
     //router.push("/");
   };
 

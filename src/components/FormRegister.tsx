@@ -9,16 +9,23 @@ import { dataToInputs } from "@/utils/dataToInputs";
 import React from "react";
 import FormFields from "@/types/FormFields";
 import { InputField } from "@/utils/dataToInputs";
-import { usePathname } from "next/navigation.js";
+import { usePathname, useRouter } from "next/navigation.js";
+//firebase
+import { auth , db } from "../firebase/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { collection  } from "firebase/firestore";
 
 //Cuando se hacen los datos a pedir en el formulario, asegurarse de que el "name" sea el mismo que el "label" que va en el useState
 const Form = () => {
   const pathname = usePathname(); // Obtiene la URL actual
   const [currentPath, setCurrentPath] = useState(pathname);
+   const router = useRouter();
+   
+   const userCol = collection(db, 'users');
 
   useEffect(() => {
     if (pathname !== "es/register") {
-      console.log("que?");
+      //console.log("que?");
     }
   }, []);
 
@@ -85,7 +92,19 @@ const Form = () => {
     }
     await validateFormatInputs({ dataForm, setErrorObject });
     console.log("dataForm en componente Form=>", dataForm);
-    //router.push("/welcome");
+    try {
+      if (dataForm.email && dataForm.password) {
+       // const userCredential = await createUserWithEmailAndPassword(auth, dataForm.email?.value, dataForm.password?.value);
+       // const user = userCredential.user;
+        const resp  = await fetch("http://localhost:5000/date-in-latam/us-central1/addUser",dataForm)
+        console.log(resp);
+        //router.push("/welcome");
+        //return user;
+      }
+    } catch (error: any) {
+      console.error("Error al registrar usuario:", error.message);
+      return null;
+    }
   };
 
   const fontWeight = "font-semibold";
@@ -103,3 +122,6 @@ const Form = () => {
   );
 };
 export default Form;
+
+
+
