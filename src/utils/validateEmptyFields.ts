@@ -3,7 +3,7 @@ import FormFields from "@/types/FormFields";
 interface validateEmptyFieldsInterface {
   setDataForm: Dispatch<SetStateAction<FormFields>>;
 }
-
+//funcion que coloca bordes rojo en los campos vacios
 const validateEmptyFields = async ({ setDataForm }: validateEmptyFieldsInterface) => {
   let notSendSubmit = false;
 

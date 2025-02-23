@@ -9,16 +9,25 @@ import { dataToInputs } from "@/utils/dataToInputs";
 import React from "react";
 import FormFields from "@/types/FormFields";
 import { InputField } from "@/utils/dataToInputs";
-import { usePathname } from "next/navigation.js";
+import { usePathname, useRouter } from "next/navigation.js";
+import { toast } from "sonner";
+//firebase
+import { auth, db } from "../firebase/firebase";
+//import { createUserWithEmailAndPassword } from "firebase/auth";
+import { collection } from "firebase/firestore";
+import axios from "axios";
 
 //Cuando se hacen los datos a pedir en el formulario, asegurarse de que el "name" sea el mismo que el "label" que va en el useState
 const Form = () => {
   const pathname = usePathname(); // Obtiene la URL actual
   const [currentPath, setCurrentPath] = useState(pathname);
+  const router = useRouter();
+
+  const userCol = collection(db, "users");
 
   useEffect(() => {
     if (pathname !== "es/register") {
-      console.log("que?");
+      //console.log("que?");
     }
   }, []);
 
@@ -78,22 +87,44 @@ const Form = () => {
   };
 
   const handleSubmit = async () => {
-    const notSendSubmit = await validateEmptyFields({ setDataForm });
-    if (notSendSubmit) {
-      console.log("El formulario no se debe enviar, hay campos vacios");
-      // return;
-    }
+    await validateEmptyFields({ setDataForm });
     await validateFormatInputs({ dataForm, setErrorObject });
+
     console.log("dataForm en componente Form=>", dataForm);
-    //router.push("/welcome");
+    try {
+      if (dataForm.email && dataForm.password && dataForm.email.value && dataForm.password.value) {
+          //la creacion del user con Auth se hace en el backend, lo mismo que el  save en la base de datos ->
+          const resp = await axios.post("http://localhost:5000/date-in-latam/us-central1/addUser", dataForm);
+          console.log(resp);
+          if (resp.data === "Usuario creado con exito") {
+            toast("Usuario creado con exito", { position: "top-center", style: { backgroundColor: "rgba(202, 199, 252, 0.7)", border: "2px solid #948ffa" } });
+          } else {
+            toast("Error al crear usuario", { position: "bottom-center", style: { backgroundColor: "rgb(255, 204, 204 , 0.7)", border: "2px solid #948ffa" } });
+          }
+          //router.push("/welcome");
+          //return user;
+      }
+    } catch (error: any) {
+      console.error("Error al registrar usuario:", error.message);
+      return null;
+    }
   };
+
+  // {
+  //   data: 'Usuario creado con exito',
+  //   status: 200,
+  //   statusText: 'OK',
+  //   headers: AxiosHeaders {
+  //     'content-length': '24',
+  //     'content-type': 'text/html; charset=utf-8'
+  //   },
 
   const fontWeight = "font-semibold";
   const widthBox = "w-[470px]";
   return (
     <form className={`flex flex-col p-5 shadow-xl rounded-md gap-y-6 bg-myColorTransparent-500 ${fontWeight}`}>
       {mapingData()}
-      <div className={`w-[260px] sm:w-[470px] text-center mt-2`}>
+      <div className={`w-[260px] sm:w-[470px] text-center mt-2 self-center`}>
         <p className="text-myColorBlack-500 dark:text-myColorWhite-500 font-normal text-sm sm:text-base">
           Al registrarte, confirmas que tienes más de 18 años y aceptas nuestros <span className="font-black">Términos y Condiciones</span>, los cuales incluyen nuestras <span className="font-black">políticas de cookies</span>.
         </p>
