@@ -22,7 +22,7 @@ const validateFormatInputs = async ({ dataForm, setErrorObject }: validateFormat
   const passwordRegex = /^(?=.*\d)[a-zA-Z\d]{6,}$/;
   const nameRegex = /^[^\d]+$/;
 
-  const colorToast = " rgba(202, 199, 252, 0.7)";
+  const colorToast = "rgba(202, 199, 252, 0.7)";
 
   if (dataForm.email && objMessage.email) {
     const email = dataForm["email"].value;
@@ -51,17 +51,25 @@ const validateFormatInputs = async ({ dataForm, setErrorObject }: validateFormat
 
   if (dataForm.name && objMessage.name) {
     const name = dataForm["name"]?.value;
-    if (!nameRegex.test(name)) {
+    if (!nameRegex.test(name) && name !== "") {
       objMessage.name.message = "No debe contener números.";
       toast("El nombre no debe tener números.", { position: "bottom-center", style: { backgroundColor: colorToast, border: "2px solid #948ffa" } });
+    }
+    if(name === ""){
+      objMessage.name.message = "Campo requerido.";
+      toast("El nombre es requerido.", { position: "bottom-center", style: { backgroundColor: colorToast, border: "2px solid #948ffa" } });
     }
   }
 
   if (dataForm.surname && objMessage.surname) {
     const surname = dataForm["surname"]?.value;
-    if (!nameRegex.test(surname)) {
+    if (!nameRegex.test(surname) && surname !== "") {
       objMessage.surname.message = "No debe contener números.";
       toast("El apellido no debe tener números.", { position: "bottom-center", style: { backgroundColor: colorToast, border: "2px solid #948ffa" } });
+    }
+    if(surname === ""){
+      objMessage.surname.message = "Campo requerido.";
+      toast("El apellido es requerido.", { position: "bottom-center", style: { backgroundColor: colorToast, border: "2px solid #948ffa" } });
     }
   }
 

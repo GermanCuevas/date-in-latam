@@ -41,7 +41,12 @@ export default function Home({ params: { lng } }: HomeProps) {
   //const containerRef = useRef<HTMLDivElement>(null);
 
   const bg = "bg-gradientLight dark:bg-gradientDark";
+  console.log("🚀 ==> :44 ==> Home ==> bg:", bg)
 
+
+ 
+  
+  
   return (
     <div className={`flex items-center justify-center relative  h-screen ${bg}`}>
       <div className="flex flex-col gap-24 sm:gap-16 items-center">

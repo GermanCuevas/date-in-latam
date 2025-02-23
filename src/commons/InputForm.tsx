@@ -132,7 +132,7 @@ const InputForm: FC<InputProps> = ({ type, placeholder, setDataForm, dataForm, n
           <span>{titleSelect}</span>
         </div>
         <Select options={options} placeholder={placeholder} value={inputValueToSelect} className={`text-myColorBlack-500 `} styles={customStyles} onChange={handleChangeSelectComponent} isSearchable={false}/>
-        {inputValueToSelect.value === "No mostrar" || inputValueToSelect.value === "" ? (
+        {inputValueToSelect.value === "No mostrar"  ? (
           <div className="flex gap-x-1">
             <p className="text-xs text-soft-700 dark:text-primary-50"> (*) Este dato no se mostrara en tu perfil</p>
           </div>
