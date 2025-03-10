@@ -5,22 +5,17 @@ import { useEffect, useState } from "react";
 import validateEmptyFields from "@/utils/validateEmptyFields";
 import MultipleInputs from "./MultipleInputs";
 import validateFormatInputs from "@/utils/validateFormatInputs";
-import { dataToInputs } from "@/utils/dataToInputs";
+import { dataToInputsToCompleteGoogleRegister } from "@/utils/dataToInputs";
 import React from "react";
 import FormFields from "@/types/FormFields";
 import { InputField } from "@/utils/dataToInputs";
 import { usePathname, useRouter } from "next/navigation.js";
 import { toast } from "sonner";
 
-
-
-
-//import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection } from "firebase/firestore";
 import axios from "axios";
 
 //Cuando se hacen los datos a pedir en el formulario, asegurarse de que el "name" sea el mismo que el "label" que va en el useState
-const Form = () => {
+const FormCompleteDataGoogle = () => {
   const pathname = usePathname(); // Obtiene la URL actual
   const [currentPath, setCurrentPath] = useState(pathname);
   const router = useRouter();
@@ -48,7 +43,7 @@ const Form = () => {
     repeatPassword: { value: "", red: false, label: "repeatPassword" },
   });
 
-  const [dataInputs] = useState(dataToInputs);
+  const [dataInputs] = useState(dataToInputsToCompleteGoogleRegister);
 
   const [innerWidth, setInnerWidth] = useState<number | null>(null);
 
@@ -73,6 +68,7 @@ const Form = () => {
   };
 
   const mapingData = () => {
+    
     const dataMap = dataInputs.map((obj, idx) => {
       return <React.Fragment key={`${idx}-map-inputs`}>{Array.isArray(obj) ? renderArray(obj) : <InputForm fontSizeInput={"normal"} type={obj.type} placeholder={obj.placeholder} name={obj.name} setDataForm={setDataForm} dataForm={dataForm} width={widthBox} errorObject={errorObject} options={obj.options} titleSelect={obj?.titleBox} colorFont="normal" />}</React.Fragment>;
     });
@@ -118,14 +114,6 @@ const Form = () => {
     router.push(to);
   };
 
-  // {
-  //   data: 'Usuario creado con exito',
-  //   status: 200,
-  //   statusText: 'OK',
-  //   headers: AxiosHeaders {
-  //     'content-length': '24',
-  //     'content-type': 'text/html; charset=utf-8'
-  //   },
 
   const fontWeight = "font-semibold";
   const widthBox = "w-[470px]";
@@ -133,20 +121,9 @@ const Form = () => {
     <div className="flex gap-20 items-center">
       <form className={`flex flex-col p-5 shadow-xl rounded-md gap-y-6 bg-myColorTransparent-500 ${fontWeight}`}>
         {mapingData()}
-        <div className={`w-[260px] sm:w-[470px] text-center mt-2 self-center`}>
-          <p className="text-myColorBlack-500 dark:text-myColorWhite-500 font-normal text-sm sm:text-base">
-            Al registrarte, confirmas que tienes más de 18 años y aceptas nuestros <span className="font-black">Términos y Condiciones</span>, los cuales incluyen nuestras <span className="font-black">políticas de cookies</span>.
-          </p>
-        </div>
-        <Button text={"Registrarme ahora"} variant={"primary"} type="submit" handleFunction={handleSubmit} to={""} fontSize={"normal"} widthButton={false} />
+        <Button text={"Actualizar mis datos"} variant={"primary"} type="submit" handleFunction={handleSubmit} to={""} fontSize={"normal"} widthButton={false} />
       </form>
-      <div className="flex flex-col gap-4 items-center">
-        <div>
-          <span className="text-myColorBlack-500 dark:text-myColorWhite-500 text-sm sm:text-base font-black">¿Tienes cuenta de Google?</span>
-        </div>
-        <Button text={"Ir a iniciar sesion"} variant={"primary"} type="button" handleFunction={handleRedirect} to={"/login"} fontSize={"normal"} widthButton={false} />
-      </div>
     </div>
   );
 };
-export default Form;
+export default FormCompleteDataGoogle;

@@ -22,6 +22,9 @@ export default function Template({
     setLanguage(lang);
   }, []);
 
+ 
+  
+
   return (
     <>
       {pathname !== "/es" && pathname !== "/es/login" && pathname !== "/es/register" && pathname !== "/en" && pathname !== "/en/login" && pathname !== "/en/register" && <Header menu={menu} setMenu={setMenu} />}

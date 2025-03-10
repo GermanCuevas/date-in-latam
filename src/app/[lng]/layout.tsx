@@ -4,9 +4,9 @@ import FloatBtn from "../../components/FloatBtn";
 import Version from "@/components/Versions";
 import { dir } from "i18next";
 import { languages } from "../i18n/settings";
-import SelectLanguaje from "@/components/SelectLanguaje";
 import { Toaster } from "sonner";
 //import Image from "next/image";
+import Providers from "../providers";
 
 //const languages = ["en", "es"];
 
@@ -36,16 +36,17 @@ interface RootLayoutProps {
   params: Params;
 }
 //"mt-[30px] sm:mt-[65px]"
-
 //pt-[30px] sm:pt-[65px]
 export default function RootLayout({ children, params: { lng } }: RootLayoutProps) {
   return (
     <html lang={lng} dir={dir(lng)}>
       <body className={`${lato.className} bg-myColorWhite-500 dark:bg-myColorBlack-600 `}>
-        <Toaster richColors />
-        {children}
-        <FloatBtn />
-        <Version />
+        <Providers>
+          <Toaster richColors />
+          {children}
+          <FloatBtn />
+          <Version />
+        </Providers>
       </body>
     </html>
   );
