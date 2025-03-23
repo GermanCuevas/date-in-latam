@@ -1,6 +1,8 @@
 "use client";
 import { FC } from "react";
 import React from "react";
+//next
+import Image from "next/image";
 
 interface ButtonProps {
   text: string;
@@ -13,9 +15,10 @@ interface ButtonProps {
   widthButton?: boolean;
   onWith40px?: boolean;
   handleFunctionWithoutParam?: () => void;
+  img?: {src: string, width: number, height: number};
 }
 
-const Button: FC<ButtonProps> = ({ text, type, handleFunction, handleFunctionWithoutParam, to, variant, fontSize, Icon, widthButton, onWith40px }) => {
+const Button: FC<ButtonProps> = ({ text, type, handleFunction, handleFunctionWithoutParam, to, variant, fontSize, Icon, widthButton, onWith40px, img }) => {
   const variantSwitch = {
     primary: `bg-vibrant-500 hover:bg-vibrant-600`,
     secondary: `bg-myColorTransparent-500 hover:bg-vibrant-300`,
@@ -48,7 +51,8 @@ const Button: FC<ButtonProps> = ({ text, type, handleFunction, handleFunctionWit
           handleFunctionWithoutParam();
         }
       }}
-    >
+    > 
+      {img ?  <Image src={img.src} width={img.width} height={img.height} alt="Data in latam Logo" /> : null}
       {text}
       {Icon && <Icon className="h-[20px] sm:h-[40px]" />}
     </button>

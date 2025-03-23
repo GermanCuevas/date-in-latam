@@ -236,4 +236,87 @@ const dataToPreferences: DataToInputs = [
   },
 ];
 
-export { dataToInputs, dataInputsLogin, dataToPreferences };
+const dataToInputsToCompleteGoogleRegister: DataToInputs = [
+  [
+    {
+      type: "text",
+      placeholder: "Nombre",
+      name: "name",
+    },
+    {
+      type: "text",
+      placeholder: "Apellido",
+      name: "surname",
+    },
+  ],
+  {
+    type: "text",
+    placeholder: "Email",
+    name: "email",
+  },
+  [
+    {
+      type: "select",
+      placeholder: "Dia",
+      name: "day",
+      titleBox: "Fecha de nacimiento",
+      options: daysOptions,
+    },
+    {
+      type: "select",
+      placeholder: "Mes",
+      name: "month",
+      options: [
+        { value: "January", label: "Enero" },
+        { value: "February", label: "Febrero" },
+        { value: "March", label: "Marzo" },
+        { value: "April", label: "Abril" },
+        { value: "May", label: "Mayo" },
+        { value: "June", label: "Junio" },
+        { value: "July", label: "Julio" },
+        { value: "August", label: "Agosto" },
+        { value: "September", label: "Septiembre" },
+        { value: "October", label: "Octubre" },
+        { value: "November", label: "Noviembre" },
+        { value: "December", label: "Diciembre" },
+      ],
+    },
+    {
+      type: "select",
+      placeholder: "Año",
+      name: "year",
+      options: yearsOptions,
+    },
+  ],
+  {
+    type: "text",
+    placeholder: "Ciudad / Locacion",
+    name: "city",
+  },
+  {
+    type: "select",
+    placeholder: "Mi genero",
+    name: "gender",
+    titleBox: "Mi genero",
+    options: [
+      { value: "Hombre", label: "Hombre" },
+      { value: "Mujer", label: "Mujer" },
+      { value: "No binario", label: "No binario" },
+      { value: "Prefiero no decir", label: "Prefiero no decir" },
+    ],
+  },
+  {
+    type: "select",
+    placeholder: "Quiero conocer",
+    name: "toKnow",
+    titleBox: "Quiero conocer",
+    options: [
+      { value: "Hombre", label: "Hombre" },
+      { value: "Mujer", label: "Mujer" },
+      { value: "No binario", label: "No binario" },
+      { value: "Prefiero no decir", label: "Prefiero no decir" },
+    ],
+  },
+];
+
+export { dataToInputs, dataInputsLogin, dataToPreferences , dataToInputsToCompleteGoogleRegister };
