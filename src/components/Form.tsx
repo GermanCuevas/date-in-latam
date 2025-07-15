@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/commons/Button";
 import InputForm from "@/commons/InputForm";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import validateEmptyFields from "@/utils/validateEmptyFields";
 import validateFormatInputs from "@/utils/validateFormatInputs";
 import FormFields from "@/types/FormFields";
@@ -14,8 +14,8 @@ import axios from "axios";
 import { auth } from "../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 //google
-import { signIn, signOut, useSession } from "next-auth/react";
-import { stat } from "fs";
+import { signIn, signOut, useSession  } from "next-auth/react";
+
 
 //Formulario de login
 //Todos los campos del formulario deben declararse dentro del useState para poder ser usados en el formulario.
@@ -23,27 +23,38 @@ import { stat } from "fs";
 
 const Form = () => {
   const router = useRouter();
+  //const [alreadySent, setAlreadySent] = useState(false);
+  const alreadySentRef = useRef(false);
   const [errorObject, setErrorObject] = useState<ErrorFieldsForm>({});
 
   //datos del google auth
   const { data: session, status } = useSession();
 
-  console.log("session", session);
-  console.log("status", status);
+
+console.log("Session:", session);
+  console.log("Status:", status);
+
 
   const handleRegisterWithGoogle = async () => {
+    console.log("handleRegisterWithGoogle");
     //funcion para redirigir al listado de mails de google
-    signIn("google");
+    signIn("google", { prompt: "select_account" });
   };
-
+  //creamos un contador para ver cuantas veces se ha ejecutado el useEffect
+  //const [counter, setCounter] = useState(0);
+  //console.log("Counter:", counter);
   useEffect(() => {
     const verifySession = async () => {
-      if (session && status === "authenticated") {
+      //console.log(session && status === "authenticated");
+      if (alreadySentRef.current) return;
+      if (session && status === "authenticated"  ) {
+        //setCounter((prev) => prev + 1);
+        //sumamos 1 al contador
+        alreadySentRef.current = true; 
         try {
-          const resp = await axios.post("http://localhost:5000/date-in-latam/us-central1/addUserByGoogleAuth", session);
-          console.log("Usuario registrado con Google =>", resp);
+          await axios.post("http://localhost:5000/date-in-latam/us-central1/addUserByGoogleAuth", session);
           router.push("/welcome");
-        } catch (error) {
+        } catch (error: any) {
           console.error("Error al registrar usuario con Google:", error);
         }
       }
@@ -51,13 +62,11 @@ const Form = () => {
 
     const ejecutar = async () => {
       await signOut();
-
-    }
-   // ejecutar();
-   verifySession();
+    };
+    //ejecutar();
+    verifySession();
     console.log("session", session);
-    
-  }, [session, status]);
+  }, [session, status ]);
 
   const [dataForm, setDataForm] = useState<FormFields>({
     email: { value: "", red: false, label: "email" },

@@ -9,6 +9,10 @@ import { Toaster } from "sonner";
 import Providers from "../providers";
 
 //const languages = ["en", "es"];
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
+import { redirect } from "next/navigation";
 
 export async function generateStaticParams() {
   return languages.map((lng) => {
@@ -37,7 +41,12 @@ interface RootLayoutProps {
 }
 //"mt-[30px] sm:mt-[65px]"
 //pt-[30px] sm:pt-[65px]
-export default function RootLayout({ children, params: { lng } }: RootLayoutProps) {
+export default async function RootLayout({ children, params: { lng } }: RootLayoutProps) {
+  const session = await getServerSession(authOptions);
+  console.log("export",session);
+  //   if (session) {
+  //   redirect("/register");
+  // }
   return (
     <html lang={lng} dir={dir(lng)}>
       <body className={`${lato.className} bg-myColorWhite-500 dark:bg-myColorBlack-600 `}>
