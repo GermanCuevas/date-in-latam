@@ -31,31 +31,36 @@ export const addUserByGoogleAuth = onRequest({ cors: true }, async (req: any, re
     imageGoogle: image,
   };
   const userDataToDB = {
+    userWithoutAuth: true,
     createdAt: new Date(),
     ...infoUserValues,
   };
+  
 
   try {
     const usersRef = admin.firestore().collection("usuarios");
+    console.log(infoUserValues)
 
     await admin.firestore().runTransaction(async (transaction) => {
       const existingUserSnapshot = await transaction.get(usersRef.where("email", "==", email));
-
-      if (!existingUserSnapshot.empty) {
-        console.log("El usuario ya existe en la base de datos");
-        throw new Error("El usuario ya está registrado");
-      }
-
+console.log("existingUserSnapshot", existingUserSnapshot.empty);
+console.log("Docs encontrados:", existingUserSnapshot.docs.length);
+existingUserSnapshot.docs.forEach(doc => {
+  console.log("Doc ID:", doc.id);
+  console.log("Doc data:", doc.data());
+});
+    if (existingUserSnapshot.empty) {
       const newUserRef = usersRef.doc();
       transaction.set(newUserRef, userDataToDB);
+       console.log("Usuario guardado con éxito");
+       return res.status(201).send("Este usuario es creado con éxito");
+      } else {
+        console.log("El usuario ya está guardado");
+        return res.status(204).send("El usuario ya está registrado");
+      }
     });
 
-    console.log("Usuario creado con éxito");
-    return res.status(201).send("Este usuario es creado con éxito");
   } catch (err) {
-    if (err == "Error: El usuario ya está registrado") {
-      return res.status(409).send("El usuario ya está registrado");
-    }
+    console.error("Catch error en addUserByGoogleAuth :", err);
   }
-  return res.status(201).send("Usuario creado con exito en 201");
 });
