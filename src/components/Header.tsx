@@ -1,7 +1,12 @@
+"use client";
 import Image from "next/image";
-import { HomeIcon, HeartIcon, EyeIcon, ChatBubbleBottomCenterTextIcon, PlusCircleIcon, Bars4Icon, UserGroupIcon, UserIcon, PencilIcon } from "@heroicons/react/24/solid";
+import { HomeIcon, HeartIcon, EyeIcon, ChatBubbleBottomCenterTextIcon, PlusCircleIcon, Bars4Icon, UserGroupIcon, UserIcon, PencilIcon, PowerIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { SetStateAction, Dispatch } from "react";
+import { SetStateAction, Dispatch, useEffect, useState } from "react";
+import { motion, useAnimation, useMotionValue, useTransform } from "framer-motion";
+import { infoUser } from "@/store/infoUser";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface Props {
   menu: boolean;
@@ -9,6 +14,80 @@ interface Props {
 }
 
 const Header = ({ menu, setMenu }: Props) => {
+  const router = useRouter();
+
+  const controls = useAnimation();
+  const rotate = useMotionValue(0);
+
+  const inverseRotate = useTransform(rotate, (value) => -value);
+
+  const handleLogOut = async () => {
+    await signOut({ redirect: false });
+    router.push("/login");
+  };
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return; // Evita ejecución en SSR
+    if (!mounted) return;
+    
+    const sequence = async () => {
+      while (true) {
+        // Agrega easing consistente y tiempos un poco más largos para transiciones suaves
+        await controls.start({
+          rotate: 0,
+          borderRadius: "0%",
+          scale: 1,
+          transition: { duration: 1.5, ease: "easeInOut" },
+        });
+        rotate.set(0);
+
+        await controls.start({
+          rotate: 0,
+          borderRadius: "10%", // un paso intermedio para suavizar el cambio
+          scale: 1,
+          transition: { duration: 0.8, ease: "easeInOut" },
+        });
+        rotate.set(0);
+
+        await controls.start({
+          rotate: 180,
+          borderRadius: "50%",
+          scale: 1,
+          transition: { duration: 2, ease: "easeInOut" },
+        });
+        rotate.set(180);
+
+        await controls.start({
+          rotate: 180,
+          borderRadius: "40%", // un paso intermedio para suavizar
+          scale: 1,
+          transition: { duration: 1.8, ease: "easeInOut" },
+        });
+        rotate.set(180);
+
+        await controls.start({
+          rotate: 0,
+          borderRadius: "0%",
+          scale: 1,
+          transition: { duration: 1.5, ease: "easeInOut" },
+        });
+        rotate.set(0);
+
+        await new Promise((r) => setTimeout(r, 1500)); // repeatDelay
+      }
+    };
+    sequence();
+  }, [controls, rotate]);
+
+  const imgUserToNavbar = infoUser((state) => state.imgUserToNavbar); // 👈 leer valor
+  
+  console.log(imgUserToNavbar);
   return (
     <header className={`h-[55px] md:h-[65px] fixed bottom-0 md:top-0 flex bg-gradientLight dark:bg-gradientDark justify-center z-10 w-full`}>
       <div className="flex w-[90%] items-center">
@@ -37,6 +116,15 @@ const Header = ({ menu, setMenu }: Props) => {
                       <span>Editar mi perfil</span>
                       <PencilIcon className="size-5" />
                     </Link>
+                  </div>
+
+                  <div className="h-[1px] w-full bg-[#333333] mt-4" />
+
+                  <div className="w-[200px] hover:text-tertiary-700">
+                    <div className="flex whitespace-nowrap justify-between" onClick={handleLogOut}>
+                      <span>Cerrar sesión</span>
+                      <PowerIcon className="size-5" />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -83,6 +171,30 @@ const Header = ({ menu, setMenu }: Props) => {
               </Link>
             </li>
 
+            <div className="relative">
+              <motion.div
+                style={{
+                  ...box,
+                  rotate: rotate, // animamos con MotionValue directamente
+                }}
+                animate={controls}
+              >
+                <motion.img
+                  src={imgUserToNavbar || ""}
+                  alt="Profile"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: "inherit",
+                    display: "block",
+                    rotate: inverseRotate, // imagen gira en sentido inverso para parecer fija
+                  }}
+                />
+              </motion.div>
+              <div className="absolute bottom-[2px] right-[-2px] w-[15px] h-[15px] rounded-full bg-green-500 border-2 border-white box-content" />
+            </div>
+
             <li className="items-center flex md:hidden ">
               <button
                 onClick={() => {
@@ -112,5 +224,13 @@ const Header = ({ menu, setMenu }: Props) => {
     </header>
   );
 }; //UserGroupIcon
+
+const box: React.CSSProperties = {
+  width: "45px",
+  height: "45px",
+  overflow: "hidden",
+  display: "inline-block",
+  position: "relative",
+};
 
 export default Header;
