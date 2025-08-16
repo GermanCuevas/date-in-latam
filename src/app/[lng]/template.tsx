@@ -7,7 +7,8 @@ import SelectLanguaje from "@/components/SelectLanguaje";
 import Menu from "@/components/Menu";
 import { auth } from "../../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-
+import { infoUser } from "@/store/infoUser";
+import { useSession } from "next-auth/react";
 
 // import { getServerSession } from "next-auth/next";
 // import { authOptions } from "@/app/api/auth/[...nextauth]/route";
@@ -21,14 +22,28 @@ export default function Template({
   const pathname = usePathname();
   const [lng, setLanguage] = useState<string>("");
   const [menu, setMenu] = useState<boolean>(false);
-  
+  const setImgUserToNavbar = infoUser((state) => state.setImgUserToNavbar);
+  const imgUserToNavbar = infoUser((state) => state.imgUserToNavbar); // 👈 leer valor
+
+  const { data: session, status } = useSession();
+  console.log("Session:", session?.user.image);
+  console.log("Status:", status);
+
   useEffect(() => {
     const lang = document.documentElement.lang;
     setLanguage(lang);
   }, []);
 
- 
-  
+  useEffect(() => {
+    if (session?.user.image) {
+      setImgUserToNavbar(session?.user.image);
+    }
+  }, [session?.user]); // 👈 log cuando cambie
+
+
+  useEffect(() => {
+    console.log("Valor actual en Zustand:", imgUserToNavbar);
+  }, [imgUserToNavbar]); // 👈 log cuando cambie
 
   return (
     <>

@@ -14,8 +14,7 @@ import axios from "axios";
 import { auth } from "../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 //google
-import { signIn, signOut, useSession  } from "next-auth/react";
-
+import { signIn, signOut, useSession } from "next-auth/react";
 
 //Formulario de login
 //Todos los campos del formulario deben declararse dentro del useState para poder ser usados en el formulario.
@@ -30,10 +29,8 @@ const Form = () => {
   //datos del google auth
   const { data: session, status } = useSession();
 
-
-console.log("Session:", session);
+  console.log("Session:", session);
   console.log("Status:", status);
-
 
   const handleRegisterWithGoogle = async () => {
     console.log("handleRegisterWithGoogle");
@@ -47,10 +44,10 @@ console.log("Session:", session);
     const verifySession = async () => {
       //console.log(session && status === "authenticated");
       if (alreadySentRef.current) return;
-      if (session && status === "authenticated"  ) {
+      if (session && status === "authenticated") {
         //setCounter((prev) => prev + 1);
         //sumamos 1 al contador
-        alreadySentRef.current = true; 
+        alreadySentRef.current = true;
         try {
           await axios.post("http://localhost:5000/date-in-latam/us-central1/addUserByGoogleAuth", session);
           router.push("/welcome");
@@ -66,7 +63,7 @@ console.log("Session:", session);
     //ejecutar();
     verifySession();
     console.log("session", session);
-  }, [session, status ]);
+  }, [session, status]);
 
   const [dataForm, setDataForm] = useState<FormFields>({
     email: { value: "", red: false, label: "email" },

@@ -28,7 +28,7 @@ export async function middleware(req) {
     const lngInReferer = languages.find((l) => refererUrl.pathname.startsWith(`/${l}`));
     const response = NextResponse.next();
     if (lngInReferer) response.cookies.set(cookieName, lngInReferer);
-    return response;
+    return response; //devolver siempre
   }
 
   //PARTE DE PROTECCION DE RUTAS ABAJO
@@ -56,8 +56,29 @@ export async function middleware(req) {
   // Si es true, significa que estamos en una ruta pública y **no necesitamos sesión** para acceder.
 
   // 🚫 Si el usuario NO tiene sesión y la ruta NO es pública, lo redirigimos a login
+
   console.log("Token in Middleware:", token);
-  console.log("Is Public Route:", isPublicRoute);
+  // console.log("Token pic", token.picture);
+  // console.log("Is Public Route:", isPublicRoute);
+  // if (token) {
+  //   const response = NextResponse.next();
+  //   if (token?.picture) {
+  //     console.log("Guardando en token en cookies...");
+  //     response.cookies.set("imgUserToNavbar", token.picture, {
+  //       path: "/", // accesible en toda la app
+  //     });
+  //   }
+  //   return response; //devolver siempre
+  // }
+  // if (!token) {
+  //   const response = NextResponse.next();
+  //   console.log("Borrando cookie imgUserToNavbar...");
+  //   response.cookies.delete("imgUserToNavbar", {
+  //     path: "/", // aseguramos que sea la misma ruta
+  //   });
+  //   return response;
+  // }
+
   console.log("verificando...lo redirigimos a login?", !token && !isPublicRoute);
   if (!token && !isPublicRoute) {
     console.log("Redirigiendo a / ...");
@@ -75,7 +96,6 @@ export async function middleware(req) {
 
   return NextResponse.next();
 }
-
 
 // Opción 2: Si necesitás más flexibilidad (por ejemplo, /es/login/step2), podrías hacer:
 // const isPublicRoute = publicRoutes.some((route) =>
