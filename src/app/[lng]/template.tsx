@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 import SelectLanguaje from "@/components/SelectLanguaje";
 import Menu from "@/components/Menu";
 import { auth } from "../../firebase/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { infoUser } from "@/store/infoUser";
 import { useSession } from "next-auth/react";
+import { onAuthStateChanged } from "firebase/auth";
 
 // import { getServerSession } from "next-auth/next";
 // import { authOptions } from "@/app/api/auth/[...nextauth]/route";
@@ -40,10 +40,27 @@ export default function Template({
     }
   }, [session?.user]); // 👈 log cuando cambie
 
-
   useEffect(() => {
     console.log("Valor actual en Zustand:", imgUserToNavbar);
   }, [imgUserToNavbar]); // 👈 log cuando cambie
+
+  const [userLogin, setUserLogin] = useState({})
+
+  // const currentUser = auth.currentUser;
+  // console.log(currentUser?.email); // null si no hay sesión
+
+  // onAuthStateChanged(auth, (user) => {
+  //   if (user) {
+  //     setUserLogin(user.email)
+  //     console.log("Usuario logueado:", user.email);
+  //   } else {
+  //     setUserLogin({not:"not user"})
+  //     console.log("Usuario no logueado");
+  //   }
+  // });
+
+  // console.log(userLogin);
+  
 
   return (
     <>

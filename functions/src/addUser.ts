@@ -1,9 +1,8 @@
 import { onRequest } from "firebase-functions/v2/https";
 import * as admin from "firebase-admin";
+import { FirebaseError } from "firebase/app";
 
 export const addUser = onRequest({ cors: true }, async (req: any, res: any) => {
-  console.log("req.body funcional", req.body);
-  // Solo permitimos POST
   if (req.method !== "POST") {
     return res.status(405).send("Método no permitido");
   }
@@ -19,7 +18,6 @@ export const addUser = onRequest({ cors: true }, async (req: any, res: any) => {
     return res.send({ error: "Las contraseñas no coinciden" }).status(401);
   }
 
-  // Convert FormFields to object
   const infoUserValues = {
     city: city.value,
     email: email.value,
@@ -37,28 +35,53 @@ export const addUser = onRequest({ cors: true }, async (req: any, res: any) => {
       displayName: infoUserValues.name + " " + infoUserValues.surname,
     });
   } catch (error) {
-    console.error("Hubo un error en AUTH",error);
+    const err = error as FirebaseError;
+    console.log("aca ahora");
+    console.error("Hubo un error en AUTH ==", err.code);
+    if (err?.code === "auth/email-already-exists") {
+      console.log("LPMMMMMMMM");
+      return res.status(409).send("Este mail ya esta registrado");
+    }
   }
 
-  if(userRecord) {
+
+  if (userRecord) {
     const userDataToDB = {
+      registerFastGoogle: false,
+      createdAt: new Date(),
       uid: userRecord.uid,
       fechaNac: {
         day: day.value.value,
         month: month.value.value,
         year: year.value.value,
       },
-      createdAt: new Date(),
       ...infoUserValues,
+      //info de Google, aca no deberia ir nada, pero lo dejo para tener la misma estructura de DB
+      dataLink: {
+        linkGoogleAt: null,
+        linkedBy: null,
+        linked: false,
+      },
+      loginGoogleData: {
+        email: null,
+        name: null,
+        surname: null,
+        imageGoogle: null,
+      },
     };
     //await admin.database().ref(`usuarios/${userRecord.uid}`).set(userDataToDB);//realtime database, no esta configurado
+    console.log("trying...");
     try {
       await admin.firestore().collection("usuarios").doc(userRecord.uid).set(userDataToDB);
     } catch (err) {
       console.log("Error", err);
+      console.log("====================1");
+      return res.send("Este mail ya esta registrado").status(409);
     }
     return res.send("Usuario creado con exito").status(201);
-  }else{
+  } else {
+    console.log("====================2");
+
     return res.send("Error al crear usuario").status(401);
   }
 });

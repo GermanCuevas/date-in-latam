@@ -12,20 +12,16 @@ import { InputField } from "@/utils/dataToInputs";
 import { usePathname, useRouter } from "next/navigation.js";
 import { toast } from "sonner";
 
-
-
-
 //import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection } from "firebase/firestore";
 import axios from "axios";
+import { RESPONSE_LIMIT_DEFAULT } from "next/dist/server/api-utils";
 
 //Cuando se hacen los datos a pedir en el formulario, asegurarse de que el "name" sea el mismo que el "label" que va en el useState
 const Form = () => {
   const pathname = usePathname(); // Obtiene la URL actual
   const [currentPath, setCurrentPath] = useState(pathname);
   const router = useRouter();
-  
-
 
   useEffect(() => {
     if (pathname !== "es/register") {
@@ -88,6 +84,8 @@ const Form = () => {
     );
   };
 
+  //{data: 'Usuario creado con exito', status: 200, statusText: 'OK', headers: AxiosHeaders,
+
   const handleSubmit = async () => {
     await validateEmptyFields({ setDataForm });
     await validateFormatInputs({ dataForm, setErrorObject });
@@ -96,36 +94,28 @@ const Form = () => {
     try {
       if (dataForm.email && dataForm.password && dataForm.email.value && dataForm.password.value) {
         //la creacion del user con Auth se hace en el backend, lo mismo que el  save en la base de datos ->
-        const resp = await axios.post("http://localhost:5000/date-in-latam/us-central1/addUser", dataForm);
-        console.log(resp);
-        if (resp.data === "Usuario creado con exito") {
+        const response = await axios.post("http://localhost:5000/date-in-latam/us-central1/addUser", dataForm);
+        if (response.data === "Usuario creado con exito") {
           toast("Usuario creado con exito", { position: "top-center", style: { backgroundColor: "rgba(202, 199, 252, 0.7)", border: "2px solid #948ffa" } });
+          router.push("/welcome");
         } else {
-          toast("Error al crear usuario", { position: "bottom-center", style: { backgroundColor: "rgb(255, 204, 204 , 0.7)", border: "2px solid #948ffa" } });
+          toast("Error en algun lado", { position: "bottom-center", style: { backgroundColor: "rgb(255, 204, 204 , 0.7)", border: "2px solid #948ffa" } });
         }
-        //router.push("/welcome");
-        //return user;
       }
     } catch (error: any) {
-      console.error("Error al registrar usuario:", error.message);
+      console.error("Error al registrar usuario:", error);
+      if (error.response.data === "Este mail ya esta registrado") {
+        const messageToShow = error.response.data;
+        toast(messageToShow, { position: "bottom-center", style: { backgroundColor: "rgb(255, 204, 204 , 0.7)", border: "2px solid #948ffa" } });
+      }
       return null;
     }
   };
-
-
 
   const handleRedirect = (to: string) => {
     router.push(to);
   };
 
-  // {
-  //   data: 'Usuario creado con exito',
-  //   status: 200,
-  //   statusText: 'OK',
-  //   headers: AxiosHeaders {
-  //     'content-length': '24',
-  //     'content-type': 'text/html; charset=utf-8'
-  //   },
 
   const fontWeight = "font-semibold";
   const widthBox = "w-[470px]";

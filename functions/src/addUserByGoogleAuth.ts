@@ -20,47 +20,129 @@ export const addUserByGoogleAuth = onRequest({ cors: true }, async (req: any, re
 
   console.log("expires", expires);
 
+  //  if(userRecord) {
+  //   const userDataToDB = {
+  //     uid: userRecord.uid,
+  //     fechaNac: {
+  //       day: day.value.value,
+  //       month: month.value.value,
+  //       year: year.value.value,
+  //     },
+  //     registerFastGoogle: false,
+  //     createdAt: new Date(),
+  //     ...infoUserValues,
+  //   };
+
   if (req.method !== "POST") {
     return res.status(405).send("Método no permitido");
   }
 
-  const infoUserValues = {
+  const infoUserDataToComplete = {
+    city: null,
     email,
+    gender: null,
     name: firstName,
     surname,
-    imageGoogle: image,
+    toKnow: null,
   };
+
+  // const infoUserValues = {
+  //   city: city.value,
+  //   email: email.value,
+  //   gender: gender.value,
+  //   name: name.value,
+  //   surname: surname.value,
+  //   toKnow: toKnow.value,
+  // };
+
+  // const infoUserValuesGoogle = {
+  //   email,
+  //   name: firstName,
+  //   surname,
+  //   imageGoogle: image,
+  // };
+
+  // const userDataToDB = {
+  //   registerFastGoogle: true,
+  //   createdAt: new Date(),
+  //   ...infoUserValues,
+  // };
   const userDataToDB = {
-    userWithoutAuth: true,
+    registerFastGoogle: true,
     createdAt: new Date(),
-    ...infoUserValues,
+    //el uid se lo asigno despues
+    //uid: userRecord.uid,
+    fechaNac: {
+      day: null,
+      month: null,
+      year: null,
+    },
+    ...infoUserDataToComplete,
+    dataLink: {
+      linkGoogleAt: null,
+      linkedBy: null,
+      linked: false,
+    },
+    //info de Google para registro rapido =>
+    loginGoogleData: {
+      email,
+      name: firstName,
+      surname,
+      imageGoogle: image,
+    },
   };
-  
 
+  const userDataToDBWithLink = {
+    dataLink: {
+      linkGoogleAt: new Date(),
+      linkedBy: "google",
+      linked: true,
+    },
+    loginGoogleData: {
+      email,
+      name: firstName,
+      surname,
+      imageGoogle: image,
+    },
+  };
+
+  let userRecord;
   try {
-    const usersRef = admin.firestore().collection("usuarios");
-    console.log(infoUserValues)
+    userRecord = await admin.auth().getUserByEmail(email);
+    console.log("Usuario ya existe en Auth:", userRecord.uid);
+  
+    const checkIfIsPasswordProvider = userRecord.providerData.some((p) => p.providerId === "password");
 
-    await admin.firestore().runTransaction(async (transaction) => {
-      const existingUserSnapshot = await transaction.get(usersRef.where("email", "==", email));
-console.log("existingUserSnapshot", existingUserSnapshot.empty);
-console.log("Docs encontrados:", existingUserSnapshot.docs.length);
-existingUserSnapshot.docs.forEach(doc => {
-  console.log("Doc ID:", doc.id);
-  console.log("Doc data:", doc.data());
-});
-    if (existingUserSnapshot.empty) {
-      const newUserRef = usersRef.doc();
-      transaction.set(newUserRef, userDataToDB);
-       console.log("Usuario guardado con éxito");
-       return res.status(201).send("Este usuario es creado con éxito");
-      } else {
-        console.log("El usuario ya está guardado");
-        return res.status(204).send("El usuario ya está registrado");
-      }
-    });
+    if (checkIfIsPasswordProvider) {
+      console.log("Se procede a linkear mail manual con Google");
 
+      await admin.firestore().collection("usuarios").doc(userRecord.uid).set(userDataToDBWithLink, { merge: true });
+      return res.status(202).send("Este mail fue registrado manualmente, se sugiere linkear Google a la cuenta existente");
+    }
+
+    if (userRecord && !checkIfIsPasswordProvider) {
+      console.log("Este mail fue anteriormente registrado, se procede a loguearse");
+      return res.status(201).send("Ingreso existoso");
+    }
   } catch (err) {
-    console.error("Catch error en addUserByGoogleAuth :", err);
+    console.log("err en catch ", err);
+    if ((err as any).code === "auth/user-not-found") {
+      console.log("🙆‍♂️1️⃣ Usuario no encontrado, se procede a crearlo en Auth");
+      userRecord = await admin.auth().createUser({
+        email,
+        displayName: `${firstName} ${surname}`,
+        photoURL: image,
+      });
+      console.log("🙆‍♂️2️⃣Usuario creado en Auth con UID:", userRecord.uid);
+    }
+    console.log("Primera vez que ingresa a loguearse con Google signIn");
+    if (userRecord) {
+      await admin
+        .firestore()
+        .collection("usuarios")
+        .doc(userRecord.uid)
+        .set({ ...userDataToDB, uid: userRecord.uid });
+    }
+    return res.status(201).send("Ingreso existoso");
   }
 });

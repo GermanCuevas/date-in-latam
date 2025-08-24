@@ -12,7 +12,8 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 //firebase
 import { auth } from "../firebase/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, GoogleAuthProvider, linkWithCredential, signInWithPopup, signInWithCredential } from "firebase/auth";
+
 //google
 import { signIn, signOut, useSession } from "next-auth/react";
 
@@ -21,6 +22,10 @@ import { signIn, signOut, useSession } from "next-auth/react";
 //Luego deben colocarse los respectivos valores dentro de un array para poder mapear los Inputs, que son commons.
 
 const Form = () => {
+  //const auth = getAuth();
+
+  const provider = new GoogleAuthProvider();
+
   const router = useRouter();
   //const [alreadySent, setAlreadySent] = useState(false);
   const alreadySentRef = useRef(false);
@@ -37,32 +42,112 @@ const Form = () => {
     //funcion para redirigir al listado de mails de google
     signIn("google", { prompt: "select_account" });
   };
-  //creamos un contador para ver cuantas veces se ha ejecutado el useEffect
-  //const [counter, setCounter] = useState(0);
-  //console.log("Counter:", counter);
+
+  // useEffect(() => {
+  //   const verifySession = async () => {
+  //     if (alreadySentRef.current) return;
+
+  //     if (session && status === "authenticated") {
+  //       try {
+  //         const response = await axios.post("http://localhost:5000/date-in-latam/us-central1/addUserByGoogleAuth", session);
+
+  //         if (response.status === 202) {
+  //           try {
+  //             const credential = GoogleAuthProvider.credential(session?.id_token);
+
+  //             if (credential) {
+  //               // 👇 primero logueamos en Firebase
+  //               const userCredential = await signInWithCredential(auth, credential);
+  //               console.log("Usuario autenticado en Firebase:", userCredential.user);
+
+  //               // 👇 verificamos si ya está linkeado
+  //               if (!userCredential.user.providerData.some((p) => p.providerId === "google.com")) {
+  //                 await linkWithCredential(userCredential.user, credential);
+  //                 console.log("✅ Google vinculado con tu cuenta manual");
+  //                 router.push("/welcome");
+  //               } else {
+  //                 console.log("⚡ Ya estaba vinculado con Google");
+  //               }
+
+  //               alreadySentRef.current = true; // 👈 se setea después del éxito
+  //             } else {
+  //               console.warn("No se pudo crear credential desde id_token");
+  //             }
+  //           } catch (err: any) {
+  //             if (err.code === "auth/provider-already-linked") {
+  //               console.log("⚡ Ya estaba vinculado, ignoramos el error");
+  //               alreadySentRef.current = true; // 👈 lo bloqueamos igual
+  //             } else {
+  //               console.error("Error al vincular:", err);
+  //             }
+  //           }
+  //         }
+
+  //         if (response.status === 201) {
+  //           console.log("Ingreso exitoso 🎉");
+  //           alreadySentRef.current = true; // 👈 también bloqueamos en éxito
+  //           router.push("/welcome");
+  //         }
+  //       } catch (error: any) {
+  //         console.error("Error al registrar usuario con Google:", error);
+  //       }
+  //     }
+  //   };
+
+  //   verifySession();
+  //   console.log("session", session);
+  // }, [session, status]);
   useEffect(() => {
     const verifySession = async () => {
-      //console.log(session && status === "authenticated");
       if (alreadySentRef.current) return;
+
       if (session && status === "authenticated") {
-        //setCounter((prev) => prev + 1);
-        //sumamos 1 al contador
+        // 🚨 Bloqueo inmediato, antes del axios
         alreadySentRef.current = true;
+
         try {
-          await axios.post("http://localhost:5000/date-in-latam/us-central1/addUserByGoogleAuth", session);
-          router.push("/welcome");
+          const response = await axios.post("http://localhost:5000/date-in-latam/us-central1/addUserByGoogleAuth", session);
+
+          if (response.status === 202) {
+            try {
+              const credential = GoogleAuthProvider.credential(session?.id_token);
+
+              if (credential) {
+                const userCredential = await signInWithCredential(auth, credential);
+                console.log("Usuario autenticado en Firebase:", userCredential.user);
+
+                if (!userCredential.user.providerData.some((p) => p.providerId === "google.com")) {
+                  await linkWithCredential(userCredential.user, credential);
+                  console.log("✅ Google vinculado con tu cuenta manual");
+                  router.push("/welcome");
+                } else {
+                  console.log("⚡ Ya estaba vinculado con Google");
+                }
+              } else {
+                console.warn("No se pudo crear credential desde id_token");
+              }
+            } catch (err: any) {
+              if (err.code === "auth/provider-already-linked") {
+                console.log("⚡ Ya estaba vinculado, ignoramos el error");
+              } else {
+                console.error("Error al vincular:", err);
+              }
+            }
+          }
+
+          if (response.status === 201) {
+            console.log("Ingreso exitoso 🎉");
+            router.push("/welcome");
+          }
         } catch (error: any) {
           console.error("Error al registrar usuario con Google:", error);
+          // 👉 liberás el flag si querés permitir reintentar
+          alreadySentRef.current = false;
         }
       }
     };
 
-    const ejecutar = async () => {
-      await signOut();
-    };
-    //ejecutar();
     verifySession();
-    console.log("session", session);
   }, [session, status]);
 
   const [dataForm, setDataForm] = useState<FormFields>({
@@ -82,8 +167,10 @@ const Form = () => {
       try {
         const userCredential = await signInWithEmailAndPassword(auth, dataForm.email?.value, dataForm.password?.value);
         console.log("Usuario autenticado:", userCredential.user);
-        router.push("/discover");
-        return userCredential.user;
+        // ID token de Firebase (JWT)
+        const token = await userCredential.user.getIdToken();
+        console.log("token ====>", token);
+        router.push("/welcome");
       } catch (error: any) {
         console.error("Error al iniciar sesión:", error.message);
         return null;
