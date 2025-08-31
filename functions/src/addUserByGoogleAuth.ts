@@ -10,6 +10,8 @@ export const addUserByGoogleAuth = onRequest({ cors: true }, async (req: any, re
   const { expires, user } = req.body;
   const { email, image, name } = user;
 
+  console.log("name ===>", name);
+
   const nameSplit = name.split(" ");
   let firstName = "";
   let surname = "";

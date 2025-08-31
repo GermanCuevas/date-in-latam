@@ -30,6 +30,7 @@ const Form = () => {
   //const [alreadySent, setAlreadySent] = useState(false);
   const alreadySentRef = useRef(false);
   const [errorObject, setErrorObject] = useState<ErrorFieldsForm>({});
+   const [manualLogin, setManualLogin] = useState(false);
 
   //datos del google auth
   const { data: session, status } = useSession();
@@ -101,7 +102,7 @@ const Form = () => {
     const verifySession = async () => {
       if (alreadySentRef.current) return;
 
-      if (session && status === "authenticated") {
+      if (session && status === "authenticated" && !manualLogin) {
         // 🚨 Bloqueo inmediato, antes del axios
         alreadySentRef.current = true;
 
@@ -155,7 +156,10 @@ const Form = () => {
     password: { value: "", red: false, label: "password" },
   });
 
+ 
+
   const handleSubmit = async () => {
+    setManualLogin(true);
     const notSendSubmit = await validateEmptyFields({ setDataForm });
     if (notSendSubmit) {
       console.log("El formulario no se debe enviar, hay campos vacios");
@@ -163,20 +167,39 @@ const Form = () => {
     }
     await validateFormatInputs({ dataForm, setErrorObject });
     console.log("dataForm =>", dataForm);
-    if (dataForm.email && dataForm.password) {
+    // if (dataForm.email && dataForm.password) {
+    //   try {
+    //     const userCredential = await signInWithEmailAndPassword(auth, dataForm.email?.value, dataForm.password?.value);
+    //     console.log("Usuario autenticado:", userCredential.user);
+    //     // ID token de Firebase (JWT)
+    //     const token = await userCredential.user.getIdToken();
+    //     console.log("token ====>", token);
+    //     router.push("/welcome");
+    //   } catch (error: any) {
+    //     console.error("Error al iniciar sesión:", error.message);
+    //     return null;
+    //   }
+    // }
+    //router.push("/");
+    if (dataForm.email?.value && dataForm.password?.value) {
       try {
-        const userCredential = await signInWithEmailAndPassword(auth, dataForm.email?.value, dataForm.password?.value);
-        console.log("Usuario autenticado:", userCredential.user);
-        // ID token de Firebase (JWT)
-        const token = await userCredential.user.getIdToken();
-        console.log("token ====>", token);
-        router.push("/welcome");
+        // 👇 usamos NextAuth en lugar de Firebase directo
+        const result = await signIn("credentials", {
+          email: dataForm.email.value,
+          password: dataForm.password.value,
+          redirect: false, // evita redirección automática
+        });
+
+        if (result?.error) {
+          console.error("Error al iniciar sesión:", result.error);
+        } else {
+          console.log("✅ Usuario autenticado con NextAuth");
+          router.push("/welcome");
+        }
       } catch (error: any) {
-        console.error("Error al iniciar sesión:", error.message);
-        return null;
+        console.error("Error inesperado en login:", error.message);
       }
     }
-    //router.push("/");
   };
 
   return (

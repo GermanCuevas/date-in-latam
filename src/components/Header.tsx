@@ -8,12 +8,14 @@ import { infoUser } from "@/store/infoUser";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
+
 interface Props {
   menu: boolean;
   setMenu: Dispatch<SetStateAction<boolean>>;
 }
 
 const Header = ({ menu, setMenu }: Props) => {
+   const setImgUserToNavbar = infoUser((state) => state.setImgUserToNavbar);
   const router = useRouter();
 
   const controls = useAnimation();
@@ -23,6 +25,7 @@ const Header = ({ menu, setMenu }: Props) => {
 
   const handleLogOut = async () => {
     await signOut({ redirect: false });
+    setImgUserToNavbar("");
     router.push("/login");
   };
 
@@ -180,7 +183,7 @@ const Header = ({ menu, setMenu }: Props) => {
                 animate={controls}
               >
                 <motion.img
-                  src={imgUserToNavbar || ""}
+                  src={imgUserToNavbar || "/assets/catProfileDefault.jpeg"}
                   alt="Profile"
                   style={{
                     width: "100%",
