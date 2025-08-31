@@ -5,10 +5,10 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import SelectLanguaje from "@/components/SelectLanguaje";
 import Menu from "@/components/Menu";
-import { auth } from "../../firebase/firebase";
+//import { auth } from "../../firebase/firebase";
 import { infoUser } from "@/store/infoUser";
 import { useSession } from "next-auth/react";
-import { onAuthStateChanged } from "firebase/auth";
+//import { onAuthStateChanged } from "firebase/auth";
 
 // import { getServerSession } from "next-auth/next";
 // import { authOptions } from "@/app/api/auth/[...nextauth]/route";
